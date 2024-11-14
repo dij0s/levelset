@@ -18,7 +18,7 @@ using namespace chrono;
 // Advection Solver 
 int main(int argc, char *argv[])
 {
-    auto start = high_resolution_clock::now();
+    auto start_total = high_resolution_clock::now();
 
     // Data Initialization
     // == Spatial ==
@@ -48,10 +48,15 @@ int main(int argc, char *argv[])
         v[i] = new double[ny];
     }
 
+    auto duration_init = duration_cast<nanoseconds>(high_resolution_clock::now() - start_total);
+    printf("Execution time of non-p initialization: %ldns\n", duration_init.count());
+
     Initialization(phi, curvature, u, v, nx, ny, dx, dy); // Initialize the distance function field 
     computeBoundaries(phi, nx, ny); // Extrapolate phi on the boundaries
 
     // == Output ==
+    auto start_write = high_resolution_clock::now();
+    
     stringstream ss;
     ss << scale;
     string scaleStr = ss.str();
@@ -62,8 +67,12 @@ int main(int argc, char *argv[])
     // == First output == 
     // Write data in VTK format
     mkdir("output", 0777); // Create output folder
-    writeDataVTK(outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
 
+    auto duration_write = duration_cast<nanoseconds>(high_resolution_clock::now() - start_write);
+    printf("Execution time of non-p writing: %ldns\n", duration_write.count());
+
+    writeDataVTK(outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
+    
     // Loop over time
     for (int step = 1; step <= nSteps; step++){
 
@@ -86,14 +95,19 @@ int main(int argc, char *argv[])
 
     }
 
-    auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start);
-    printf("Total execution time for %fs of simulation: %dms\n", tFinal, duration.count());
+    auto start_deallocate = high_resolution_clock::now();
 
     // Deallocate memory
     for (int i = 0; i < nx; ++i) {
         delete[] phi[i];
     }
     delete[] phi;
+
+    auto duration_deallocate = duration_cast<nanoseconds>(high_resolution_clock::now() - start_deallocate);
+    printf("Execution time of memory deallocation: %ldns\n", duration_deallocate.count());
+
+    auto duration_total = duration_cast<milliseconds>(high_resolution_clock::now() - start_total);
+    printf("Total execution time for %fs of simulation: %ldms\n", tFinal, duration_total.count());
 
     return 0;
 }

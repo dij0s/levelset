@@ -1,0 +1,1649 @@
+rm run_serpentin
+g++ main.cpp write/write.cpp initialization/init.cpp solve/solve.cpp diagnostics/diagnostics.cpp -o run_serpentin
+./run_serpentin
+Execution time of non-p initialization: 312054ns
+The maximum curvature is 8.32336 m^{-2}
+Execution time of non-p writing: 18920ns
+Writing data into output/levelSet_scale1_0000000.vtk
+
+Starting iteration step 1/400	Time 0.005s
+The total interface length is 0.941353 m
+The maximum curvature is 8.55473 m^{-2}
+
+Starting iteration step 2/400	Time 0.01s
+The total interface length is 0.94103 m
+The maximum curvature is 8.8131 m^{-2}
+
+Starting iteration step 3/400	Time 0.015s
+The total interface length is 0.940791 m
+The maximum curvature is 8.98402 m^{-2}
+
+Starting iteration step 4/400	Time 0.02s
+The total interface length is 0.940636 m
+The maximum curvature is 9.21763 m^{-2}
+
+Starting iteration step 5/400	Time 0.025s
+The total interface length is 0.940567 m
+The maximum curvature is 9.72822 m^{-2}
+
+Starting iteration step 6/400	Time 0.03s
+The total interface length is 0.940583 m
+The maximum curvature is 9.98366 m^{-2}
+
+Starting iteration step 7/400	Time 0.035s
+The total interface length is 0.940688 m
+The maximum curvature is 10.2284 m^{-2}
+
+Starting iteration step 8/400	Time 0.04s
+The total interface length is 0.940881 m
+The maximum curvature is 10.3843 m^{-2}
+
+Starting iteration step 9/400	Time 0.045s
+The total interface length is 0.941165 m
+The maximum curvature is 10.9276 m^{-2}
+
+Starting iteration step 10/400	Time 0.05s
+The total interface length is 0.941542 m
+The maximum curvature is 11.258 m^{-2}
+Writing data into output/levelSet_scale1_0000001.vtk
+
+Starting iteration step 11/400	Time 0.055s
+The total interface length is 0.942014 m
+The maximum curvature is 11.551 m^{-2}
+
+Starting iteration step 12/400	Time 0.06s
+The total interface length is 0.942582 m
+The maximum curvature is 11.6763 m^{-2}
+
+Starting iteration step 13/400	Time 0.065s
+The total interface length is 0.94325 m
+The maximum curvature is 12.0827 m^{-2}
+
+Starting iteration step 14/400	Time 0.07s
+The total interface length is 0.94402 m
+The maximum curvature is 12.683 m^{-2}
+
+Starting iteration step 15/400	Time 0.075s
+The total interface length is 0.944895 m
+The maximum curvature is 13.0848 m^{-2}
+
+Starting iteration step 16/400	Time 0.08s
+The total interface length is 0.945876 m
+The maximum curvature is 13.2004 m^{-2}
+
+Starting iteration step 17/400	Time 0.085s
+The total interface length is 0.946968 m
+The maximum curvature is 13.6083 m^{-2}
+
+Starting iteration step 18/400	Time 0.09s
+The total interface length is 0.948171 m
+The maximum curvature is 14.3186 m^{-2}
+
+Starting iteration step 19/400	Time 0.095s
+The total interface length is 0.94949 m
+The maximum curvature is 13.9479 m^{-2}
+
+Starting iteration step 20/400	Time 0.1s
+The total interface length is 0.950927 m
+The maximum curvature is 14.6087 m^{-2}
+Writing data into output/levelSet_scale1_0000002.vtk
+
+Starting iteration step 21/400	Time 0.105s
+The total interface length is 0.952484 m
+The maximum curvature is 15.411 m^{-2}
+
+Starting iteration step 22/400	Time 0.11s
+The total interface length is 0.954164 m
+The maximum curvature is 15.7648 m^{-2}
+
+Starting iteration step 23/400	Time 0.115s
+The total interface length is 0.955969 m
+The maximum curvature is 15.8062 m^{-2}
+
+Starting iteration step 24/400	Time 0.12s
+The total interface length is 0.957902 m
+The maximum curvature is 16.5316 m^{-2}
+
+Starting iteration step 25/400	Time 0.125s
+The total interface length is 0.959964 m
+The maximum curvature is 16.5446 m^{-2}
+
+Starting iteration step 26/400	Time 0.13s
+The total interface length is 0.962158 m
+The maximum curvature is 17.0956 m^{-2}
+
+Starting iteration step 27/400	Time 0.135s
+The total interface length is 0.964485 m
+The maximum curvature is 17.9933 m^{-2}
+
+Starting iteration step 28/400	Time 0.14s
+The total interface length is 0.966947 m
+The maximum curvature is 17.6676 m^{-2}
+
+Starting iteration step 29/400	Time 0.145s
+The total interface length is 0.969545 m
+The maximum curvature is 18.327 m^{-2}
+
+Starting iteration step 30/400	Time 0.15s
+The total interface length is 0.972279 m
+The maximum curvature is 19.3332 m^{-2}
+Writing data into output/levelSet_scale1_0000003.vtk
+
+Starting iteration step 31/400	Time 0.155s
+The total interface length is 0.97515 m
+The maximum curvature is 18.845 m^{-2}
+
+Starting iteration step 32/400	Time 0.16s
+The total interface length is 0.978158 m
+The maximum curvature is 19.912 m^{-2}
+
+Starting iteration step 33/400	Time 0.165s
+The total interface length is 0.981304 m
+The maximum curvature is 20.9932 m^{-2}
+
+Starting iteration step 34/400	Time 0.17s
+The total interface length is 0.984586 m
+The maximum curvature is 20.3533 m^{-2}
+
+Starting iteration step 35/400	Time 0.175s
+The total interface length is 0.988004 m
+The maximum curvature is 21.3734 m^{-2}
+
+Starting iteration step 36/400	Time 0.18s
+The total interface length is 0.991555 m
+The maximum curvature is 22.3486 m^{-2}
+
+Starting iteration step 37/400	Time 0.185s
+The total interface length is 0.995239 m
+The maximum curvature is 21.6712 m^{-2}
+
+Starting iteration step 38/400	Time 0.19s
+The total interface length is 0.999053 m
+The maximum curvature is 22.9252 m^{-2}
+
+Starting iteration step 39/400	Time 0.195s
+The total interface length is 1.003 m
+The maximum curvature is 23.3828 m^{-2}
+
+Starting iteration step 40/400	Time 0.2s
+The total interface length is 1.00706 m
+The maximum curvature is 23.3872 m^{-2}
+Writing data into output/levelSet_scale1_0000004.vtk
+
+Starting iteration step 41/400	Time 0.205s
+The total interface length is 1.01125 m
+The maximum curvature is 24.8139 m^{-2}
+
+Starting iteration step 42/400	Time 0.21s
+The total interface length is 1.01556 m
+The maximum curvature is 23.7228 m^{-2}
+
+Starting iteration step 43/400	Time 0.215s
+The total interface length is 1.01998 m
+The maximum curvature is 25.1561 m^{-2}
+
+Starting iteration step 44/400	Time 0.22s
+The total interface length is 1.02451 m
+The maximum curvature is 25.2429 m^{-2}
+
+Starting iteration step 45/400	Time 0.225s
+The total interface length is 1.02915 m
+The maximum curvature is 25.3452 m^{-2}
+
+Starting iteration step 46/400	Time 0.23s
+The total interface length is 1.03388 m
+The maximum curvature is 27.2707 m^{-2}
+
+Starting iteration step 47/400	Time 0.235s
+The total interface length is 1.03872 m
+The maximum curvature is 28.442 m^{-2}
+
+Starting iteration step 48/400	Time 0.24s
+The total interface length is 1.04365 m
+The maximum curvature is 29.2573 m^{-2}
+
+Starting iteration step 49/400	Time 0.245s
+The total interface length is 1.04866 m
+The maximum curvature is 29.7224 m^{-2}
+
+Starting iteration step 50/400	Time 0.25s
+The total interface length is 1.05376 m
+The maximum curvature is 30.9124 m^{-2}
+Writing data into output/levelSet_scale1_0000005.vtk
+
+Starting iteration step 51/400	Time 0.255s
+The total interface length is 1.05894 m
+The maximum curvature is 31.9107 m^{-2}
+
+Starting iteration step 52/400	Time 0.26s
+The total interface length is 1.06419 m
+The maximum curvature is 32.483 m^{-2}
+
+Starting iteration step 53/400	Time 0.265s
+The total interface length is 1.06951 m
+The maximum curvature is 33.4739 m^{-2}
+
+Starting iteration step 54/400	Time 0.27s
+The total interface length is 1.07489 m
+The maximum curvature is 34.7746 m^{-2}
+
+Starting iteration step 55/400	Time 0.275s
+The total interface length is 1.08033 m
+The maximum curvature is 38.0617 m^{-2}
+
+Starting iteration step 56/400	Time 0.28s
+The total interface length is 1.08583 m
+The maximum curvature is 38.4201 m^{-2}
+
+Starting iteration step 57/400	Time 0.285s
+The total interface length is 1.09138 m
+The maximum curvature is 39.6804 m^{-2}
+
+Starting iteration step 58/400	Time 0.29s
+The total interface length is 1.09698 m
+The maximum curvature is 41.3924 m^{-2}
+
+Starting iteration step 59/400	Time 0.295s
+The total interface length is 1.10262 m
+The maximum curvature is 42.2931 m^{-2}
+
+Starting iteration step 60/400	Time 0.3s
+The total interface length is 1.10831 m
+The maximum curvature is 42.2413 m^{-2}
+Writing data into output/levelSet_scale1_0000006.vtk
+
+Starting iteration step 61/400	Time 0.305s
+The total interface length is 1.11403 m
+The maximum curvature is 45.6364 m^{-2}
+
+Starting iteration step 62/400	Time 0.31s
+The total interface length is 1.11978 m
+The maximum curvature is 46.2213 m^{-2}
+
+Starting iteration step 63/400	Time 0.315s
+The total interface length is 1.12557 m
+The maximum curvature is 50.4873 m^{-2}
+
+Starting iteration step 64/400	Time 0.32s
+The total interface length is 1.13138 m
+The maximum curvature is 51.2493 m^{-2}
+
+Starting iteration step 65/400	Time 0.325s
+The total interface length is 1.13722 m
+The maximum curvature is 50.4437 m^{-2}
+
+Starting iteration step 66/400	Time 0.33s
+The total interface length is 1.14309 m
+The maximum curvature is 53.1662 m^{-2}
+
+Starting iteration step 67/400	Time 0.335s
+The total interface length is 1.14897 m
+The maximum curvature is 56.059 m^{-2}
+
+Starting iteration step 68/400	Time 0.34s
+The total interface length is 1.15488 m
+The maximum curvature is 60.2574 m^{-2}
+
+Starting iteration step 69/400	Time 0.345s
+The total interface length is 1.1608 m
+The maximum curvature is 62.9185 m^{-2}
+
+Starting iteration step 70/400	Time 0.35s
+The total interface length is 1.16673 m
+The maximum curvature is 63.1468 m^{-2}
+Writing data into output/levelSet_scale1_0000007.vtk
+
+Starting iteration step 71/400	Time 0.355s
+The total interface length is 1.17268 m
+The maximum curvature is 61.5507 m^{-2}
+
+Starting iteration step 72/400	Time 0.36s
+The total interface length is 1.17864 m
+The maximum curvature is 70.43 m^{-2}
+
+Starting iteration step 73/400	Time 0.365s
+The total interface length is 1.18462 m
+The maximum curvature is 69.0492 m^{-2}
+
+Starting iteration step 74/400	Time 0.37s
+The total interface length is 1.1906 m
+The maximum curvature is 71.4551 m^{-2}
+
+Starting iteration step 75/400	Time 0.375s
+The total interface length is 1.19659 m
+The maximum curvature is 76.1078 m^{-2}
+
+Starting iteration step 76/400	Time 0.38s
+The total interface length is 1.20258 m
+The maximum curvature is 79.9627 m^{-2}
+
+Starting iteration step 77/400	Time 0.385s
+The total interface length is 1.20859 m
+The maximum curvature is 79.6781 m^{-2}
+
+Starting iteration step 78/400	Time 0.39s
+The total interface length is 1.21459 m
+The maximum curvature is 87.7854 m^{-2}
+
+Starting iteration step 79/400	Time 0.395s
+The total interface length is 1.2206 m
+The maximum curvature is 91.1559 m^{-2}
+
+Starting iteration step 80/400	Time 0.4s
+The total interface length is 1.22661 m
+The maximum curvature is 88.5317 m^{-2}
+Writing data into output/levelSet_scale1_0000008.vtk
+
+Starting iteration step 81/400	Time 0.405s
+The total interface length is 1.23263 m
+The maximum curvature is 98.2902 m^{-2}
+
+Starting iteration step 82/400	Time 0.41s
+The total interface length is 1.23864 m
+The maximum curvature is 104.189 m^{-2}
+
+Starting iteration step 83/400	Time 0.415s
+The total interface length is 1.24466 m
+The maximum curvature is 101.954 m^{-2}
+
+Starting iteration step 84/400	Time 0.42s
+The total interface length is 1.25067 m
+The maximum curvature is 102.788 m^{-2}
+
+Starting iteration step 85/400	Time 0.425s
+The total interface length is 1.25667 m
+The maximum curvature is 115.544 m^{-2}
+
+Starting iteration step 86/400	Time 0.43s
+The total interface length is 1.26267 m
+The maximum curvature is 120.631 m^{-2}
+
+Starting iteration step 87/400	Time 0.435s
+The total interface length is 1.26866 m
+The maximum curvature is 114.151 m^{-2}
+
+Starting iteration step 88/400	Time 0.44s
+The total interface length is 1.27465 m
+The maximum curvature is 140.258 m^{-2}
+
+Starting iteration step 89/400	Time 0.445s
+The total interface length is 1.28064 m
+The maximum curvature is 137.042 m^{-2}
+
+Starting iteration step 90/400	Time 0.45s
+The total interface length is 1.28661 m
+The maximum curvature is 140.075 m^{-2}
+Writing data into output/levelSet_scale1_0000009.vtk
+
+Starting iteration step 91/400	Time 0.455s
+The total interface length is 1.29256 m
+The maximum curvature is 135.585 m^{-2}
+
+Starting iteration step 92/400	Time 0.46s
+The total interface length is 1.29849 m
+The maximum curvature is 144.628 m^{-2}
+
+Starting iteration step 93/400	Time 0.465s
+The total interface length is 1.30439 m
+The maximum curvature is 163.895 m^{-2}
+
+Starting iteration step 94/400	Time 0.47s
+The total interface length is 1.31029 m
+The maximum curvature is 160.438 m^{-2}
+
+Starting iteration step 95/400	Time 0.475s
+The total interface length is 1.31617 m
+The maximum curvature is 164.702 m^{-2}
+
+Starting iteration step 96/400	Time 0.48s
+The total interface length is 1.32204 m
+The maximum curvature is 156.48 m^{-2}
+
+Starting iteration step 97/400	Time 0.485s
+The total interface length is 1.32787 m
+The maximum curvature is 188.616 m^{-2}
+
+Starting iteration step 98/400	Time 0.49s
+The total interface length is 1.33366 m
+The maximum curvature is 194.147 m^{-2}
+
+Starting iteration step 99/400	Time 0.495s
+The total interface length is 1.33939 m
+The maximum curvature is 195.377 m^{-2}
+
+Starting iteration step 100/400	Time 0.5s
+The total interface length is 1.34508 m
+The maximum curvature is 185.565 m^{-2}
+Writing data into output/levelSet_scale1_0000010.vtk
+
+Starting iteration step 101/400	Time 0.505s
+The total interface length is 1.35074 m
+The maximum curvature is 194.266 m^{-2}
+
+Starting iteration step 102/400	Time 0.51s
+The total interface length is 1.35638 m
+The maximum curvature is 234.004 m^{-2}
+
+Starting iteration step 103/400	Time 0.515s
+The total interface length is 1.36199 m
+The maximum curvature is 233.432 m^{-2}
+
+Starting iteration step 104/400	Time 0.52s
+The total interface length is 1.36755 m
+The maximum curvature is 231.221 m^{-2}
+
+Starting iteration step 105/400	Time 0.525s
+The total interface length is 1.37304 m
+The maximum curvature is 223.629 m^{-2}
+
+Starting iteration step 106/400	Time 0.53s
+The total interface length is 1.37845 m
+The maximum curvature is 228.633 m^{-2}
+
+Starting iteration step 107/400	Time 0.535s
+The total interface length is 1.38376 m
+The maximum curvature is 232.168 m^{-2}
+
+Starting iteration step 108/400	Time 0.54s
+The total interface length is 1.38899 m
+The maximum curvature is 255.419 m^{-2}
+
+Starting iteration step 109/400	Time 0.545s
+The total interface length is 1.39417 m
+The maximum curvature is 279.158 m^{-2}
+
+Starting iteration step 110/400	Time 0.55s
+The total interface length is 1.39932 m
+The maximum curvature is 278.477 m^{-2}
+Writing data into output/levelSet_scale1_0000011.vtk
+
+Starting iteration step 111/400	Time 0.555s
+The total interface length is 1.40444 m
+The maximum curvature is 275.537 m^{-2}
+
+Starting iteration step 112/400	Time 0.56s
+The total interface length is 1.40948 m
+The maximum curvature is 276.352 m^{-2}
+
+Starting iteration step 113/400	Time 0.565s
+The total interface length is 1.41442 m
+The maximum curvature is 279.165 m^{-2}
+
+Starting iteration step 114/400	Time 0.57s
+The total interface length is 1.41927 m
+The maximum curvature is 272.086 m^{-2}
+
+Starting iteration step 115/400	Time 0.575s
+The total interface length is 1.42398 m
+The maximum curvature is 270.995 m^{-2}
+
+Starting iteration step 116/400	Time 0.58s
+The total interface length is 1.42854 m
+The maximum curvature is 280.751 m^{-2}
+
+Starting iteration step 117/400	Time 0.585s
+The total interface length is 1.43296 m
+The maximum curvature is 316.763 m^{-2}
+
+Starting iteration step 118/400	Time 0.59s
+The total interface length is 1.43732 m
+The maximum curvature is 335.197 m^{-2}
+
+Starting iteration step 119/400	Time 0.595s
+The total interface length is 1.44166 m
+The maximum curvature is 327.838 m^{-2}
+
+Starting iteration step 120/400	Time 0.6s
+The total interface length is 1.44597 m
+The maximum curvature is 331.231 m^{-2}
+Writing data into output/levelSet_scale1_0000012.vtk
+
+Starting iteration step 121/400	Time 0.605s
+The total interface length is 1.4502 m
+The maximum curvature is 327.088 m^{-2}
+
+Starting iteration step 122/400	Time 0.61s
+The total interface length is 1.45432 m
+The maximum curvature is 322.555 m^{-2}
+
+Starting iteration step 123/400	Time 0.615s
+The total interface length is 1.4583 m
+The maximum curvature is 339.504 m^{-2}
+
+Starting iteration step 124/400	Time 0.62s
+The total interface length is 1.46211 m
+The maximum curvature is 332.071 m^{-2}
+
+Starting iteration step 125/400	Time 0.625s
+The total interface length is 1.46574 m
+The maximum curvature is 331.034 m^{-2}
+
+Starting iteration step 126/400	Time 0.63s
+The total interface length is 1.46919 m
+The maximum curvature is 340.871 m^{-2}
+
+Starting iteration step 127/400	Time 0.635s
+The total interface length is 1.4725 m
+The maximum curvature is 352.103 m^{-2}
+
+Starting iteration step 128/400	Time 0.64s
+The total interface length is 1.47573 m
+The maximum curvature is 398.567 m^{-2}
+
+Starting iteration step 129/400	Time 0.645s
+The total interface length is 1.47886 m
+The maximum curvature is 401.735 m^{-2}
+
+Starting iteration step 130/400	Time 0.65s
+The total interface length is 1.48191 m
+The maximum curvature is 408.221 m^{-2}
+Writing data into output/levelSet_scale1_0000013.vtk
+
+Starting iteration step 131/400	Time 0.655s
+The total interface length is 1.48497 m
+The maximum curvature is 411.319 m^{-2}
+
+Starting iteration step 132/400	Time 0.66s
+The total interface length is 1.488 m
+The maximum curvature is 402.214 m^{-2}
+
+Starting iteration step 133/400	Time 0.665s
+The total interface length is 1.49088 m
+The maximum curvature is 396.246 m^{-2}
+
+Starting iteration step 134/400	Time 0.67s
+The total interface length is 1.49358 m
+The maximum curvature is 424.508 m^{-2}
+
+Starting iteration step 135/400	Time 0.675s
+The total interface length is 1.49602 m
+The maximum curvature is 396.112 m^{-2}
+
+Starting iteration step 136/400	Time 0.68s
+The total interface length is 1.4981 m
+The maximum curvature is 430.57 m^{-2}
+
+Starting iteration step 137/400	Time 0.685s
+The total interface length is 1.50007 m
+The maximum curvature is 401.114 m^{-2}
+
+Starting iteration step 138/400	Time 0.69s
+The total interface length is 1.50194 m
+The maximum curvature is 441.227 m^{-2}
+
+Starting iteration step 139/400	Time 0.695s
+The total interface length is 1.50366 m
+The maximum curvature is 454.358 m^{-2}
+
+Starting iteration step 140/400	Time 0.7s
+The total interface length is 1.50524 m
+The maximum curvature is 488.582 m^{-2}
+Writing data into output/levelSet_scale1_0000014.vtk
+
+Starting iteration step 141/400	Time 0.705s
+The total interface length is 1.5067 m
+The maximum curvature is 490.651 m^{-2}
+
+Starting iteration step 142/400	Time 0.71s
+The total interface length is 1.50807 m
+The maximum curvature is 498.218 m^{-2}
+
+Starting iteration step 143/400	Time 0.715s
+The total interface length is 1.5094 m
+The maximum curvature is 483.954 m^{-2}
+
+Starting iteration step 144/400	Time 0.72s
+The total interface length is 1.51071 m
+The maximum curvature is 497.546 m^{-2}
+
+Starting iteration step 145/400	Time 0.725s
+The total interface length is 1.51186 m
+The maximum curvature is 529.302 m^{-2}
+
+Starting iteration step 146/400	Time 0.73s
+The total interface length is 1.5128 m
+The maximum curvature is 480.369 m^{-2}
+
+Starting iteration step 147/400	Time 0.735s
+The total interface length is 1.51345 m
+The maximum curvature is 538.887 m^{-2}
+
+Starting iteration step 148/400	Time 0.74s
+The total interface length is 1.51384 m
+The maximum curvature is 588.472 m^{-2}
+
+Starting iteration step 149/400	Time 0.745s
+The total interface length is 1.51391 m
+The maximum curvature is 555.497 m^{-2}
+
+Starting iteration step 150/400	Time 0.75s
+The total interface length is 1.51375 m
+The maximum curvature is 499.881 m^{-2}
+Writing data into output/levelSet_scale1_0000015.vtk
+
+Starting iteration step 151/400	Time 0.755s
+The total interface length is 1.5134 m
+The maximum curvature is 702.413 m^{-2}
+
+Starting iteration step 152/400	Time 0.76s
+The total interface length is 1.51283 m
+The maximum curvature is 555.109 m^{-2}
+
+Starting iteration step 153/400	Time 0.765s
+The total interface length is 1.51202 m
+The maximum curvature is 590.467 m^{-2}
+
+Starting iteration step 154/400	Time 0.77s
+The total interface length is 1.51113 m
+The maximum curvature is 956.375 m^{-2}
+
+Starting iteration step 155/400	Time 0.775s
+The total interface length is 1.5103 m
+The maximum curvature is 810.131 m^{-2}
+
+Starting iteration step 156/400	Time 0.78s
+The total interface length is 1.50935 m
+The maximum curvature is 611.266 m^{-2}
+
+Starting iteration step 157/400	Time 0.785s
+The total interface length is 1.50818 m
+The maximum curvature is 1048.73 m^{-2}
+
+Starting iteration step 158/400	Time 0.79s
+The total interface length is 1.50675 m
+The maximum curvature is 962.459 m^{-2}
+
+Starting iteration step 159/400	Time 0.795s
+The total interface length is 1.50506 m
+The maximum curvature is 874.756 m^{-2}
+
+Starting iteration step 160/400	Time 0.8s
+The total interface length is 1.50319 m
+The maximum curvature is 2142.18 m^{-2}
+Writing data into output/levelSet_scale1_0000016.vtk
+
+Starting iteration step 161/400	Time 0.805s
+The total interface length is 1.50127 m
+The maximum curvature is 2075.32 m^{-2}
+
+Starting iteration step 162/400	Time 0.81s
+The total interface length is 1.49913 m
+The maximum curvature is 866.848 m^{-2}
+
+Starting iteration step 163/400	Time 0.815s
+The total interface length is 1.49663 m
+The maximum curvature is 1185.8 m^{-2}
+
+Starting iteration step 164/400	Time 0.82s
+The total interface length is 1.49373 m
+The maximum curvature is 1138.89 m^{-2}
+
+Starting iteration step 165/400	Time 0.825s
+The total interface length is 1.49035 m
+The maximum curvature is 1585.55 m^{-2}
+
+Starting iteration step 166/400	Time 0.83s
+The total interface length is 1.48667 m
+The maximum curvature is 890.862 m^{-2}
+
+Starting iteration step 167/400	Time 0.835s
+The total interface length is 1.48272 m
+The maximum curvature is 2504.9 m^{-2}
+
+Starting iteration step 168/400	Time 0.84s
+The total interface length is 1.47867 m
+The maximum curvature is 914.249 m^{-2}
+
+Starting iteration step 169/400	Time 0.845s
+The total interface length is 1.47454 m
+The maximum curvature is 1792.71 m^{-2}
+
+Starting iteration step 170/400	Time 0.85s
+The total interface length is 1.47052 m
+The maximum curvature is 761.51 m^{-2}
+Writing data into output/levelSet_scale1_0000017.vtk
+
+Starting iteration step 171/400	Time 0.855s
+The total interface length is 1.46627 m
+The maximum curvature is 1876.68 m^{-2}
+
+Starting iteration step 172/400	Time 0.86s
+The total interface length is 1.46178 m
+The maximum curvature is 800.745 m^{-2}
+
+Starting iteration step 173/400	Time 0.865s
+The total interface length is 1.45685 m
+The maximum curvature is 1398.27 m^{-2}
+
+Starting iteration step 174/400	Time 0.87s
+The total interface length is 1.45155 m
+The maximum curvature is 4511.11 m^{-2}
+
+Starting iteration step 175/400	Time 0.875s
+The total interface length is 1.44621 m
+The maximum curvature is 2177.7 m^{-2}
+
+Starting iteration step 176/400	Time 0.88s
+The total interface length is 1.44089 m
+The maximum curvature is 961.101 m^{-2}
+
+Starting iteration step 177/400	Time 0.885s
+The total interface length is 1.43536 m
+The maximum curvature is 1056.29 m^{-2}
+
+Starting iteration step 178/400	Time 0.89s
+The total interface length is 1.42952 m
+The maximum curvature is 1354.97 m^{-2}
+
+Starting iteration step 179/400	Time 0.895s
+The total interface length is 1.42332 m
+The maximum curvature is 3083.14 m^{-2}
+
+Starting iteration step 180/400	Time 0.9s
+The total interface length is 1.4168 m
+The maximum curvature is 1839.56 m^{-2}
+Writing data into output/levelSet_scale1_0000018.vtk
+
+Starting iteration step 181/400	Time 0.905s
+The total interface length is 1.41006 m
+The maximum curvature is 3183.22 m^{-2}
+
+Starting iteration step 182/400	Time 0.91s
+The total interface length is 1.40306 m
+The maximum curvature is 2158.71 m^{-2}
+
+Starting iteration step 183/400	Time 0.915s
+The total interface length is 1.39583 m
+The maximum curvature is 7809.91 m^{-2}
+
+Starting iteration step 184/400	Time 0.92s
+The total interface length is 1.38822 m
+The maximum curvature is 1286.77 m^{-2}
+
+Starting iteration step 185/400	Time 0.925s
+The total interface length is 1.3801 m
+The maximum curvature is 4952.99 m^{-2}
+
+Starting iteration step 186/400	Time 0.93s
+The total interface length is 1.37168 m
+The maximum curvature is 2807.7 m^{-2}
+
+Starting iteration step 187/400	Time 0.935s
+The total interface length is 1.36331 m
+The maximum curvature is 2082.28 m^{-2}
+
+Starting iteration step 188/400	Time 0.94s
+The total interface length is 1.3551 m
+The maximum curvature is 3200.41 m^{-2}
+
+Starting iteration step 189/400	Time 0.945s
+The total interface length is 1.34702 m
+The maximum curvature is 1536.05 m^{-2}
+
+Starting iteration step 190/400	Time 0.95s
+The total interface length is 1.33851 m
+The maximum curvature is 1112.21 m^{-2}
+Writing data into output/levelSet_scale1_0000019.vtk
+
+Starting iteration step 191/400	Time 0.955s
+The total interface length is 1.32975 m
+The maximum curvature is 1648.52 m^{-2}
+
+Starting iteration step 192/400	Time 0.96s
+The total interface length is 1.32075 m
+The maximum curvature is 3245.52 m^{-2}
+
+Starting iteration step 193/400	Time 0.965s
+The total interface length is 1.31178 m
+The maximum curvature is 729.292 m^{-2}
+
+Starting iteration step 194/400	Time 0.97s
+The total interface length is 1.30242 m
+The maximum curvature is 2083.63 m^{-2}
+
+Starting iteration step 195/400	Time 0.975s
+The total interface length is 1.293 m
+The maximum curvature is 1530.54 m^{-2}
+
+Starting iteration step 196/400	Time 0.98s
+The total interface length is 1.28338 m
+The maximum curvature is 3982.28 m^{-2}
+
+Starting iteration step 197/400	Time 0.985s
+The total interface length is 1.27326 m
+The maximum curvature is 1975.81 m^{-2}
+
+Starting iteration step 198/400	Time 0.99s
+The total interface length is 1.26288 m
+The maximum curvature is 22644.1 m^{-2}
+
+Starting iteration step 199/400	Time 0.995s
+The total interface length is 1.25261 m
+The maximum curvature is 3923.03 m^{-2}
+
+Starting iteration step 200/400	Time 1s
+The total interface length is 1.24239 m
+The maximum curvature is 3043.04 m^{-2}
+Writing data into output/levelSet_scale1_0000020.vtk
+
+Starting iteration step 201/400	Time 1.005s
+The total interface length is 1.232 m
+The maximum curvature is 6424.48 m^{-2}
+
+Starting iteration step 202/400	Time 1.01s
+The total interface length is 1.22134 m
+The maximum curvature is 1331.38 m^{-2}
+
+Starting iteration step 203/400	Time 1.015s
+The total interface length is 1.21041 m
+The maximum curvature is 21531.5 m^{-2}
+
+Starting iteration step 204/400	Time 1.02s
+The total interface length is 1.19948 m
+The maximum curvature is 2097.89 m^{-2}
+
+Starting iteration step 205/400	Time 1.025s
+The total interface length is 1.18834 m
+The maximum curvature is 1908.16 m^{-2}
+
+Starting iteration step 206/400	Time 1.03s
+The total interface length is 1.17697 m
+The maximum curvature is 3500.33 m^{-2}
+
+Starting iteration step 207/400	Time 1.035s
+The total interface length is 1.16541 m
+The maximum curvature is 7638.54 m^{-2}
+
+Starting iteration step 208/400	Time 1.04s
+The total interface length is 1.15326 m
+The maximum curvature is 3314.81 m^{-2}
+
+Starting iteration step 209/400	Time 1.045s
+The total interface length is 1.14064 m
+The maximum curvature is 4649.96 m^{-2}
+
+Starting iteration step 210/400	Time 1.05s
+The total interface length is 1.12836 m
+The maximum curvature is 2885.46 m^{-2}
+Writing data into output/levelSet_scale1_0000021.vtk
+
+Starting iteration step 211/400	Time 1.055s
+The total interface length is 1.11647 m
+The maximum curvature is 2718.9 m^{-2}
+
+Starting iteration step 212/400	Time 1.06s
+The total interface length is 1.10477 m
+The maximum curvature is 2025.24 m^{-2}
+
+Starting iteration step 213/400	Time 1.065s
+The total interface length is 1.093 m
+The maximum curvature is 5731.92 m^{-2}
+
+Starting iteration step 214/400	Time 1.07s
+The total interface length is 1.08123 m
+The maximum curvature is 3988.07 m^{-2}
+
+Starting iteration step 215/400	Time 1.075s
+The total interface length is 1.0693 m
+The maximum curvature is 4688.8 m^{-2}
+
+Starting iteration step 216/400	Time 1.08s
+The total interface length is 1.0571 m
+The maximum curvature is 5943.25 m^{-2}
+
+Starting iteration step 217/400	Time 1.085s
+The total interface length is 1.04445 m
+The maximum curvature is 2835.28 m^{-2}
+
+Starting iteration step 218/400	Time 1.09s
+The total interface length is 1.03174 m
+The maximum curvature is 2363.11 m^{-2}
+
+Starting iteration step 219/400	Time 1.095s
+The total interface length is 1.01894 m
+The maximum curvature is 2204.56 m^{-2}
+
+Starting iteration step 220/400	Time 1.1s
+The total interface length is 1.00614 m
+The maximum curvature is 3824.12 m^{-2}
+Writing data into output/levelSet_scale1_0000022.vtk
+
+Starting iteration step 221/400	Time 1.105s
+The total interface length is 0.993454 m
+The maximum curvature is 1856.57 m^{-2}
+
+Starting iteration step 222/400	Time 1.11s
+The total interface length is 0.980909 m
+The maximum curvature is 2761.71 m^{-2}
+
+Starting iteration step 223/400	Time 1.115s
+The total interface length is 0.968184 m
+The maximum curvature is 2702.38 m^{-2}
+
+Starting iteration step 224/400	Time 1.12s
+The total interface length is 0.955138 m
+The maximum curvature is 2133.43 m^{-2}
+
+Starting iteration step 225/400	Time 1.125s
+The total interface length is 0.942185 m
+The maximum curvature is 1403.02 m^{-2}
+
+Starting iteration step 226/400	Time 1.13s
+The total interface length is 0.929195 m
+The maximum curvature is 1876.29 m^{-2}
+
+Starting iteration step 227/400	Time 1.135s
+The total interface length is 0.916154 m
+The maximum curvature is 1037.56 m^{-2}
+
+Starting iteration step 228/400	Time 1.14s
+The total interface length is 0.903035 m
+The maximum curvature is 3428.35 m^{-2}
+
+Starting iteration step 229/400	Time 1.145s
+The total interface length is 0.890025 m
+The maximum curvature is 1522.49 m^{-2}
+
+Starting iteration step 230/400	Time 1.15s
+The total interface length is 0.877138 m
+The maximum curvature is 993.206 m^{-2}
+Writing data into output/levelSet_scale1_0000023.vtk
+
+Starting iteration step 231/400	Time 1.155s
+The total interface length is 0.864215 m
+The maximum curvature is 2365.99 m^{-2}
+
+Starting iteration step 232/400	Time 1.16s
+The total interface length is 0.851342 m
+The maximum curvature is 2315.87 m^{-2}
+
+Starting iteration step 233/400	Time 1.165s
+The total interface length is 0.838462 m
+The maximum curvature is 1705.78 m^{-2}
+
+Starting iteration step 234/400	Time 1.17s
+The total interface length is 0.825463 m
+The maximum curvature is 1505.67 m^{-2}
+
+Starting iteration step 235/400	Time 1.175s
+The total interface length is 0.812215 m
+The maximum curvature is 4314.61 m^{-2}
+
+Starting iteration step 236/400	Time 1.18s
+The total interface length is 0.798973 m
+The maximum curvature is 1250.81 m^{-2}
+
+Starting iteration step 237/400	Time 1.185s
+The total interface length is 0.785861 m
+The maximum curvature is 2239.09 m^{-2}
+
+Starting iteration step 238/400	Time 1.19s
+The total interface length is 0.772982 m
+The maximum curvature is 929.07 m^{-2}
+
+Starting iteration step 239/400	Time 1.195s
+The total interface length is 0.760044 m
+The maximum curvature is 1170.48 m^{-2}
+
+Starting iteration step 240/400	Time 1.2s
+The total interface length is 0.747069 m
+The maximum curvature is 1535.37 m^{-2}
+Writing data into output/levelSet_scale1_0000024.vtk
+
+Starting iteration step 241/400	Time 1.205s
+The total interface length is 0.734127 m
+The maximum curvature is 14284.1 m^{-2}
+
+Starting iteration step 242/400	Time 1.21s
+The total interface length is 0.721725 m
+The maximum curvature is 2210.31 m^{-2}
+
+Starting iteration step 243/400	Time 1.215s
+The total interface length is 0.709208 m
+The maximum curvature is 1356.12 m^{-2}
+
+Starting iteration step 244/400	Time 1.22s
+The total interface length is 0.696811 m
+The maximum curvature is 1897.67 m^{-2}
+
+Starting iteration step 245/400	Time 1.225s
+The total interface length is 0.684908 m
+The maximum curvature is 1244.01 m^{-2}
+
+Starting iteration step 246/400	Time 1.23s
+The total interface length is 0.672974 m
+The maximum curvature is 890.547 m^{-2}
+
+Starting iteration step 247/400	Time 1.235s
+The total interface length is 0.660877 m
+The maximum curvature is 6888.02 m^{-2}
+
+Starting iteration step 248/400	Time 1.24s
+The total interface length is 0.648768 m
+The maximum curvature is 2096.88 m^{-2}
+
+Starting iteration step 249/400	Time 1.245s
+The total interface length is 0.636411 m
+The maximum curvature is 1823.19 m^{-2}
+
+Starting iteration step 250/400	Time 1.25s
+The total interface length is 0.624086 m
+The maximum curvature is 2135.63 m^{-2}
+Writing data into output/levelSet_scale1_0000025.vtk
+
+Starting iteration step 251/400	Time 1.255s
+The total interface length is 0.611968 m
+The maximum curvature is 2391.56 m^{-2}
+
+Starting iteration step 252/400	Time 1.26s
+The total interface length is 0.599939 m
+The maximum curvature is 2874.49 m^{-2}
+
+Starting iteration step 253/400	Time 1.265s
+The total interface length is 0.588451 m
+The maximum curvature is 1399.42 m^{-2}
+
+Starting iteration step 254/400	Time 1.27s
+The total interface length is 0.577062 m
+The maximum curvature is 2300.14 m^{-2}
+
+Starting iteration step 255/400	Time 1.275s
+The total interface length is 0.565692 m
+The maximum curvature is 691.825 m^{-2}
+
+Starting iteration step 256/400	Time 1.28s
+The total interface length is 0.554383 m
+The maximum curvature is 2071.58 m^{-2}
+
+Starting iteration step 257/400	Time 1.285s
+The total interface length is 0.543152 m
+The maximum curvature is 2579.75 m^{-2}
+
+Starting iteration step 258/400	Time 1.29s
+The total interface length is 0.531963 m
+The maximum curvature is 5425.79 m^{-2}
+
+Starting iteration step 259/400	Time 1.295s
+The total interface length is 0.520942 m
+The maximum curvature is 1301.39 m^{-2}
+
+Starting iteration step 260/400	Time 1.3s
+The total interface length is 0.509926 m
+The maximum curvature is 1505.42 m^{-2}
+Writing data into output/levelSet_scale1_0000026.vtk
+
+Starting iteration step 261/400	Time 1.305s
+The total interface length is 0.499138 m
+The maximum curvature is 2775.37 m^{-2}
+
+Starting iteration step 262/400	Time 1.31s
+The total interface length is 0.488561 m
+The maximum curvature is 854.324 m^{-2}
+
+Starting iteration step 263/400	Time 1.315s
+The total interface length is 0.4779 m
+The maximum curvature is 767.663 m^{-2}
+
+Starting iteration step 264/400	Time 1.32s
+The total interface length is 0.467336 m
+The maximum curvature is 6685.98 m^{-2}
+
+Starting iteration step 265/400	Time 1.325s
+The total interface length is 0.457407 m
+The maximum curvature is 1053.07 m^{-2}
+
+Starting iteration step 266/400	Time 1.33s
+The total interface length is 0.447653 m
+The maximum curvature is 1213.56 m^{-2}
+
+Starting iteration step 267/400	Time 1.335s
+The total interface length is 0.437787 m
+The maximum curvature is 756.453 m^{-2}
+
+Starting iteration step 268/400	Time 1.34s
+The total interface length is 0.427923 m
+The maximum curvature is 1001.44 m^{-2}
+
+Starting iteration step 269/400	Time 1.345s
+The total interface length is 0.418162 m
+The maximum curvature is 2456.42 m^{-2}
+
+Starting iteration step 270/400	Time 1.35s
+The total interface length is 0.408687 m
+The maximum curvature is 1549.3 m^{-2}
+Writing data into output/levelSet_scale1_0000027.vtk
+
+Starting iteration step 271/400	Time 1.355s
+The total interface length is 0.399373 m
+The maximum curvature is 958.066 m^{-2}
+
+Starting iteration step 272/400	Time 1.36s
+The total interface length is 0.390083 m
+The maximum curvature is 11307.4 m^{-2}
+
+Starting iteration step 273/400	Time 1.365s
+The total interface length is 0.381059 m
+The maximum curvature is 1930.27 m^{-2}
+
+Starting iteration step 274/400	Time 1.37s
+The total interface length is 0.372221 m
+The maximum curvature is 2123.67 m^{-2}
+
+Starting iteration step 275/400	Time 1.375s
+The total interface length is 0.363509 m
+The maximum curvature is 4051.72 m^{-2}
+
+Starting iteration step 276/400	Time 1.38s
+The total interface length is 0.354974 m
+The maximum curvature is 6705.69 m^{-2}
+
+Starting iteration step 277/400	Time 1.385s
+The total interface length is 0.346572 m
+The maximum curvature is 586.752 m^{-2}
+
+Starting iteration step 278/400	Time 1.39s
+The total interface length is 0.338239 m
+The maximum curvature is 518.679 m^{-2}
+
+Starting iteration step 279/400	Time 1.395s
+The total interface length is 0.329977 m
+The maximum curvature is 616.282 m^{-2}
+
+Starting iteration step 280/400	Time 1.4s
+The total interface length is 0.321796 m
+The maximum curvature is 1276.34 m^{-2}
+Writing data into output/levelSet_scale1_0000028.vtk
+
+Starting iteration step 281/400	Time 1.405s
+The total interface length is 0.313978 m
+The maximum curvature is 1493.09 m^{-2}
+
+Starting iteration step 282/400	Time 1.41s
+The total interface length is 0.306496 m
+The maximum curvature is 911.711 m^{-2}
+
+Starting iteration step 283/400	Time 1.415s
+The total interface length is 0.299253 m
+The maximum curvature is 786.809 m^{-2}
+
+Starting iteration step 284/400	Time 1.42s
+The total interface length is 0.292159 m
+The maximum curvature is 396.359 m^{-2}
+
+Starting iteration step 285/400	Time 1.425s
+The total interface length is 0.285023 m
+The maximum curvature is 1985.61 m^{-2}
+
+Starting iteration step 286/400	Time 1.43s
+The total interface length is 0.277941 m
+The maximum curvature is 680.708 m^{-2}
+
+Starting iteration step 287/400	Time 1.435s
+The total interface length is 0.270866 m
+The maximum curvature is 2498.96 m^{-2}
+
+Starting iteration step 288/400	Time 1.44s
+The total interface length is 0.263944 m
+The maximum curvature is 6942.37 m^{-2}
+
+Starting iteration step 289/400	Time 1.445s
+The total interface length is 0.257349 m
+The maximum curvature is 1717.01 m^{-2}
+
+Starting iteration step 290/400	Time 1.45s
+The total interface length is 0.250977 m
+The maximum curvature is 1821.79 m^{-2}
+Writing data into output/levelSet_scale1_0000029.vtk
+
+Starting iteration step 291/400	Time 1.455s
+The total interface length is 0.244721 m
+The maximum curvature is 1088.34 m^{-2}
+
+Starting iteration step 292/400	Time 1.46s
+The total interface length is 0.238544 m
+The maximum curvature is 423.767 m^{-2}
+
+Starting iteration step 293/400	Time 1.465s
+The total interface length is 0.232391 m
+The maximum curvature is 2049.29 m^{-2}
+
+Starting iteration step 294/400	Time 1.47s
+The total interface length is 0.226337 m
+The maximum curvature is 1482.42 m^{-2}
+
+Starting iteration step 295/400	Time 1.475s
+The total interface length is 0.220553 m
+The maximum curvature is 660.859 m^{-2}
+
+Starting iteration step 296/400	Time 1.48s
+The total interface length is 0.214873 m
+The maximum curvature is 3719.24 m^{-2}
+
+Starting iteration step 297/400	Time 1.485s
+The total interface length is 0.209339 m
+The maximum curvature is 1407.15 m^{-2}
+
+Starting iteration step 298/400	Time 1.49s
+The total interface length is 0.203945 m
+The maximum curvature is 4481.52 m^{-2}
+
+Starting iteration step 299/400	Time 1.495s
+The total interface length is 0.198788 m
+The maximum curvature is 1471.79 m^{-2}
+
+Starting iteration step 300/400	Time 1.5s
+The total interface length is 0.193745 m
+The maximum curvature is 783.238 m^{-2}
+Writing data into output/levelSet_scale1_0000030.vtk
+
+Starting iteration step 301/400	Time 1.505s
+The total interface length is 0.188704 m
+The maximum curvature is 738.03 m^{-2}
+
+Starting iteration step 302/400	Time 1.51s
+The total interface length is 0.183757 m
+The maximum curvature is 1184.69 m^{-2}
+
+Starting iteration step 303/400	Time 1.515s
+The total interface length is 0.178994 m
+The maximum curvature is 380.892 m^{-2}
+
+Starting iteration step 304/400	Time 1.52s
+The total interface length is 0.174267 m
+The maximum curvature is 296.435 m^{-2}
+
+Starting iteration step 305/400	Time 1.525s
+The total interface length is 0.169593 m
+The maximum curvature is 949.699 m^{-2}
+
+Starting iteration step 306/400	Time 1.53s
+The total interface length is 0.165063 m
+The maximum curvature is 684.126 m^{-2}
+
+Starting iteration step 307/400	Time 1.535s
+The total interface length is 0.160708 m
+The maximum curvature is 535.776 m^{-2}
+
+Starting iteration step 308/400	Time 1.54s
+The total interface length is 0.156505 m
+The maximum curvature is 390.28 m^{-2}
+
+Starting iteration step 309/400	Time 1.545s
+The total interface length is 0.152372 m
+The maximum curvature is 506.793 m^{-2}
+
+Starting iteration step 310/400	Time 1.55s
+The total interface length is 0.148417 m
+The maximum curvature is 316.859 m^{-2}
+Writing data into output/levelSet_scale1_0000031.vtk
+
+Starting iteration step 311/400	Time 1.555s
+The total interface length is 0.144569 m
+The maximum curvature is 525.339 m^{-2}
+
+Starting iteration step 312/400	Time 1.56s
+The total interface length is 0.14079 m
+The maximum curvature is 806.363 m^{-2}
+
+Starting iteration step 313/400	Time 1.565s
+The total interface length is 0.137085 m
+The maximum curvature is 339.512 m^{-2}
+
+Starting iteration step 314/400	Time 1.57s
+The total interface length is 0.133413 m
+The maximum curvature is 612.029 m^{-2}
+
+Starting iteration step 315/400	Time 1.575s
+The total interface length is 0.129838 m
+The maximum curvature is 79.3813 m^{-2}
+
+Starting iteration step 316/400	Time 1.58s
+The total interface length is 0.12631 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 317/400	Time 1.585s
+The total interface length is 0.122876 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 318/400	Time 1.59s
+The total interface length is 0.119595 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 319/400	Time 1.595s
+The total interface length is 0.116473 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 320/400	Time 1.6s
+The total interface length is 0.113479 m
+The maximum curvature is 0 m^{-2}
+Writing data into output/levelSet_scale1_0000032.vtk
+
+Starting iteration step 321/400	Time 1.605s
+The total interface length is 0.110568 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 322/400	Time 1.61s
+The total interface length is 0.107707 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 323/400	Time 1.615s
+The total interface length is 0.10486 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 324/400	Time 1.62s
+The total interface length is 0.102011 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 325/400	Time 1.625s
+The total interface length is 0.0991784 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 326/400	Time 1.63s
+The total interface length is 0.0965037 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 327/400	Time 1.635s
+The total interface length is 0.0939834 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 328/400	Time 1.64s
+The total interface length is 0.0915635 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 329/400	Time 1.645s
+The total interface length is 0.0892336 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 330/400	Time 1.65s
+The total interface length is 0.0869284 m
+The maximum curvature is 0 m^{-2}
+Writing data into output/levelSet_scale1_0000033.vtk
+
+Starting iteration step 331/400	Time 1.655s
+The total interface length is 0.084642 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 332/400	Time 1.66s
+The total interface length is 0.0823924 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 333/400	Time 1.665s
+The total interface length is 0.0802273 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 334/400	Time 1.67s
+The total interface length is 0.0781074 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 335/400	Time 1.675s
+The total interface length is 0.0760588 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 336/400	Time 1.68s
+The total interface length is 0.0740718 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 337/400	Time 1.685s
+The total interface length is 0.0721667 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 338/400	Time 1.69s
+The total interface length is 0.0703046 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 339/400	Time 1.695s
+The total interface length is 0.0685258 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 340/400	Time 1.7s
+The total interface length is 0.066799 m
+The maximum curvature is 0 m^{-2}
+Writing data into output/levelSet_scale1_0000034.vtk
+
+Starting iteration step 341/400	Time 1.705s
+The total interface length is 0.0651484 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 342/400	Time 1.71s
+The total interface length is 0.0635009 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 343/400	Time 1.715s
+The total interface length is 0.0618723 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 344/400	Time 1.72s
+The total interface length is 0.0603131 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 345/400	Time 1.725s
+The total interface length is 0.0587574 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 346/400	Time 1.73s
+The total interface length is 0.0572219 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 347/400	Time 1.735s
+The total interface length is 0.0557527 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 348/400	Time 1.74s
+The total interface length is 0.0543776 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 349/400	Time 1.745s
+The total interface length is 0.0530531 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 350/400	Time 1.75s
+The total interface length is 0.05176 m
+The maximum curvature is 0 m^{-2}
+Writing data into output/levelSet_scale1_0000035.vtk
+
+Starting iteration step 351/400	Time 1.755s
+The total interface length is 0.0504752 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 352/400	Time 1.76s
+The total interface length is 0.0492125 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 353/400	Time 1.765s
+The total interface length is 0.0479859 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 354/400	Time 1.77s
+The total interface length is 0.046779 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 355/400	Time 1.775s
+The total interface length is 0.0455935 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 356/400	Time 1.78s
+The total interface length is 0.0444613 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 357/400	Time 1.785s
+The total interface length is 0.0433717 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 358/400	Time 1.79s
+The total interface length is 0.042319 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 359/400	Time 1.795s
+The total interface length is 0.0413007 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 360/400	Time 1.8s
+The total interface length is 0.0402962 m
+The maximum curvature is 0 m^{-2}
+Writing data into output/levelSet_scale1_0000036.vtk
+
+Starting iteration step 361/400	Time 1.805s
+The total interface length is 0.0393185 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 362/400	Time 1.81s
+The total interface length is 0.0383541 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 363/400	Time 1.815s
+The total interface length is 0.0374036 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 364/400	Time 1.82s
+The total interface length is 0.0364752 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 365/400	Time 1.825s
+The total interface length is 0.0355731 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 366/400	Time 1.83s
+The total interface length is 0.0347057 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 367/400	Time 1.835s
+The total interface length is 0.0338819 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 368/400	Time 1.84s
+The total interface length is 0.0330765 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 369/400	Time 1.845s
+The total interface length is 0.0322859 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 370/400	Time 1.85s
+The total interface length is 0.0315091 m
+The maximum curvature is 0 m^{-2}
+Writing data into output/levelSet_scale1_0000037.vtk
+
+Starting iteration step 371/400	Time 1.855s
+The total interface length is 0.030744 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 372/400	Time 1.86s
+The total interface length is 0.0299938 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 373/400	Time 1.865s
+The total interface length is 0.0292851 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 374/400	Time 1.87s
+The total interface length is 0.0286069 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 375/400	Time 1.875s
+The total interface length is 0.0279481 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 376/400	Time 1.88s
+The total interface length is 0.0273061 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 377/400	Time 1.885s
+The total interface length is 0.0266638 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 378/400	Time 1.89s
+The total interface length is 0.0260183 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 379/400	Time 1.895s
+The total interface length is 0.0253787 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 380/400	Time 1.9s
+The total interface length is 0.0247621 m
+The maximum curvature is 0 m^{-2}
+Writing data into output/levelSet_scale1_0000038.vtk
+
+Starting iteration step 381/400	Time 1.905s
+The total interface length is 0.0241834 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 382/400	Time 1.91s
+The total interface length is 0.023641 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 383/400	Time 1.915s
+The total interface length is 0.0231184 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 384/400	Time 1.92s
+The total interface length is 0.0226112 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 385/400	Time 1.925s
+The total interface length is 0.0221141 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 386/400	Time 1.93s
+The total interface length is 0.0216266 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 387/400	Time 1.935s
+The total interface length is 0.0211354 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 388/400	Time 1.94s
+The total interface length is 0.0206489 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 389/400	Time 1.945s
+The total interface length is 0.0201778 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 390/400	Time 1.95s
+The total interface length is 0.0197226 m
+The maximum curvature is 0 m^{-2}
+Writing data into output/levelSet_scale1_0000039.vtk
+
+Starting iteration step 391/400	Time 1.955s
+The total interface length is 0.0192764 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 392/400	Time 1.96s
+The total interface length is 0.0188437 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 393/400	Time 1.965s
+The total interface length is 0.0184303 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 394/400	Time 1.97s
+The total interface length is 0.0180326 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 395/400	Time 1.975s
+The total interface length is 0.0176494 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 396/400	Time 1.98s
+The total interface length is 0.0172775 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 397/400	Time 1.985s
+The total interface length is 0.0169111 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 398/400	Time 1.99s
+The total interface length is 0.0165507 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 399/400	Time 1.995s
+The total interface length is 0.0161988 m
+The maximum curvature is 0 m^{-2}
+
+Starting iteration step 400/400	Time 2s
+The total interface length is 0.0158504 m
+The maximum curvature is 0 m^{-2}
+Writing data into output/levelSet_scale1_0000040.vtk
+Execution time of memory deallocation: 4441ns
+Total execution time for 2.000000s of simulation: 963ms

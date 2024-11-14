@@ -37,7 +37,6 @@ void computeInterfaceLength(double** phi, const int nx, const int ny, const doub
 
     // Print the total interface length 
     cout << "The total interface length is " << length << " m\n";
-
 }
 
 
@@ -78,6 +77,7 @@ void computeInterfaceCurvature(double** phi,double** curvature, const int nx, co
     }
 
     // Print the maximum interface curvature 
+    // cout << "The maximum curvature is " << maxCurvature << " m^{-2}\n";
     cout << "The maximum curvature is " << maxCurvature << " m^{-2}\n";
 
 }
