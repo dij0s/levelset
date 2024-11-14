@@ -12,16 +12,11 @@ __global__ void vecAddKernel(double *distance, double *phi, double *u, double *v
     int j = blockIdx.y * blockDim.y + threadIdx.y;
     
     if (i < nx && j < ny) {
-        printf("i: %d, j: %d\n", i, j);
 
         double x_val = i * dx - xcenter;
         double y_val = j * dy - ycenter;
         
         distance[j * nx + i] = sqrt(x_val * x_val + y_val * y_val) - radius;
-
-        if (distance[j * nx + i] == 0) {
-            printf("x_val: %f, y_val: %f\n", x_val, y_val);
-        }
 
         phi[j * nx + i] = distance[j * nx + i];
         u[j * nx + i] = sin(2.0 * M_PI * j * dy) * sin(M_PI * i * dx) * sin(M_PI * i * dx);
@@ -31,7 +26,7 @@ __global__ void vecAddKernel(double *distance, double *phi, double *u, double *v
 
 // Initialization of the distance function inside the domain
 void Initialization(double** phi, double** curvature, double** u, double** v, const int nx, const int ny, const double dx, const double dy) {
-    /*
+   /*
     // == Circle parameters ==
     double xcenter = 0.5; // Circle position x
     double ycenter = 0.75; // Circle position y
@@ -53,8 +48,8 @@ void Initialization(double** phi, double** curvature, double** u, double** v, co
             v[i][j] = -sin(2.0*M_PI*i*dx) * sin(M_PI*j*dy) * sin(M_PI*j*dy);
             printf("%f\n",  phi[i][j]);
         }
-    }*/
-
+    }
+*/
     double xcenter = 0.5;
     double ycenter = 0.75;
     double radius = 0.15;
@@ -95,26 +90,29 @@ void Initialization(double** phi, double** curvature, double** u, double** v, co
     cudaFree(d_u);
     cudaFree(d_v);
     
-    for (int i = 0; i< nx*ny; i++){
-        int jj = i% nx; 
-        int ii = floor(i/nx);
-        phi[jj][ii] = h_phi[i];
-    }
     for(int i = 0; i< nx*ny; i++){
         int jj = i% nx; 
         int ii = floor(i/nx);
-        printf("%f\n", phi[ii][jj]);
-
+        phi[jj][ii] = h_phi[i];
+        u[jj][ii] = h_u[i];
+        v[jj][ii] = h_v[i];
     }
-    
-    // Compute the interface curvature
 
-    //free(h_phi);
+    // Free device memory
+    cudaFree(d_distance);
+    cudaFree(d_phi);
+    cudaFree(d_u);
+    cudaFree(d_v);
+
+    // Free host temporary memory
+    free(h_phi);
     free(h_u);
     free(h_v);
     free(h_distance);
 
+    // Call the function to compute the interface curvature with updated phi
     computeInterfaceCurvature(phi, curvature, nx, ny, dx, dy);
+
 
 
 
