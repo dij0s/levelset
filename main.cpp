@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <sys/stat.h>
+#include <chrono>
 
 // == User lib ==
 #include "diagnostics/diagnostics.h"
@@ -12,10 +13,12 @@
 
 // Namespace
 using namespace std;
+using namespace chrono;
 
 // Advection Solver 
 int main(int argc, char *argv[])
 {
+    auto start = high_resolution_clock::now();
 
     // Data Initialization
     // == Spatial ==
@@ -83,6 +86,8 @@ int main(int argc, char *argv[])
 
     }
 
+    auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start);
+    printf("Total execution time for %fs of simulation: %dms\n", tFinal, duration.count());
 
     // Deallocate memory
     for (int i = 0; i < nx; ++i) {
