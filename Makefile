@@ -1,5 +1,5 @@
 all:
-	nvcc main.cpp write/write.cpp initialization/init.cpp solve/solve.cu diagnostics/diagnostics.cpp -o run_serpentin
+	nvcc main.cpp write/write.cpp initialization/init.cpp solve/solve.cu diagnostics/diagnostics.cu -o run_serpentin
 	nvprof ./run_serpentin
 
 clean:

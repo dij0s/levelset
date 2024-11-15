@@ -98,7 +98,7 @@ void solveAdvectionEquationExplicit(
     // allocate memory on the device
     // for host-scoped data
     size_t unidimensional_size_bytes = unidimensional_size * sizeof(double);
-    double *d_phi, *d_phi_n, *d_u, *d_v; 
+    double *d_phi, *d_phi_n, *d_u, *d_v;
 
     cudaMalloc((void **)&d_phi, unidimensional_size_bytes);
     cudaMalloc((void **)&d_phi_n, unidimensional_size_bytes);
