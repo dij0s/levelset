@@ -53,7 +53,13 @@ int main(int argc, char *argv[])
 
     Initialization(phi, curvature, u, v, nx, ny, dx, dy); // Initialize the distance function field 
     computeBoundaries(phi, nx, ny); // Extrapolate phi on the boundaries
+    printf("lalala");
+    for (int i = 0; i<nx;i++){
+        for(int j =0; j< ny ;j++){
+          printf("%f\n", u[i][j]);
 
+        }
+    }
     // == Output ==
     auto start_write = high_resolution_clock::now();
     
