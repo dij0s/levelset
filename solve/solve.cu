@@ -77,7 +77,6 @@ void solveAdvectionEquationExplicit(
     // unidimentional datastructure
     const int unidimensional_size = nx * ny;
     
-    double** phi_2d = new double*[nx];
     double* phi_n = new double[unidimensional_size];
     double* single_dimension_u = new double[unidimensional_size];
     double* single_dimension_v = new double[unidimensional_size];
@@ -92,11 +91,6 @@ void solveAdvectionEquationExplicit(
         phi_n[i] = phi[ii][jj];
         single_dimension_u[i] = u[ii][jj];
         single_dimension_v[i] = v[ii][jj];
-
-        // create arrays for 2d phi
-        if (jj == 0) {
-            phi_2d[ii] = new double[ny];
-        }
     }
 
     // Compute the advection equation 
@@ -136,18 +130,14 @@ void solveAdvectionEquationExplicit(
         int ii = i % nx;
         int jj = floor(i / nx);
         
-        phi_2d[ii][jj] = phi_n[i];
+        phi[ii][jj] = phi_n[i];
     }
 
     // Refresh the boundaries values
-    computeBoundaries(phi_2d, nx, ny);
+    computeBoundaries(phi, nx, ny);
 
     // Deallocate memory
     delete[] phi_n;
     delete[] single_dimension_u;
     delete[] single_dimension_v;
-    for (int i = 0; i < nx; i++) {
-        delete[] phi_2d[i];
-    }
-    delete[] phi_2d;
 }
