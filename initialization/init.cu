@@ -84,11 +84,7 @@ void Initialization(double** phi, double** curvature, double** u, double** v, co
     cudaMemcpy(h_u, d_u, size2d, cudaMemcpyDeviceToHost);
     cudaMemcpy(h_v, d_v, size2d, cudaMemcpyDeviceToHost);
    
-    // Free device memory 
-    cudaFree(d_distance);
-    cudaFree(d_phi);
-    cudaFree(d_u);
-    cudaFree(d_v);
+
     
     for(int i = 0; i< nx*ny; i++){
         int jj = i% nx; 
