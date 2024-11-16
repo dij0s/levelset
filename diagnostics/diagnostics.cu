@@ -105,16 +105,20 @@ void computeInterfaceLength(double** phi, const int nx, const int ny, const doub
     double epsilon = 0.001;
     
     // reduce phi to one dimension
-    const int unidimensional_size = nx * ny;
+    // borders are not included
+    const int unidimensional_size = (nx - 1) * (ny - 1);
     double* phi_n = new double[unidimensional_size];
     
-    for (int i = 0; i < unidimensional_size; i++) {
-        // compute two dimensional index
-        int ii = i % nx;
-        int jj = floor(i / nx);
+    // unidimensional index increment
+    int ii = 0;
+    // only copy internal cells
+    for (int i = 1; i < (nx - 1); i++) {
+        for (int j = 1; j < (ny - 1); j++) {
+            // assign value to copy of phi
+            phi_n[ii] = phi[i][j];
 
-        // assign value to copy of phi
-        phi_n[i] = phi[ii][jj];
+            ii += 1;
+        }
     }
 
     // allocate memory on the device
@@ -175,6 +179,17 @@ void computeInterfaceCurvature(double **phi, double **curvature, const int nx, c
 
     h_curvature = (double*)malloc(size2d);
     h_phi = (double*)malloc(size2d);
+
+    // flatten both phi and curvature
+    // explicitly, may be done in
+    // cudaMemcpy directly ?
+    for (int i = 0; i < nx * ny; i++) {
+        int ii = i % nx;
+        int jj = floor(i / nx);
+        
+        h_phi[i] = phi[ii][jj];
+        h_curvature[i] = curvature[ii][jj];
+    }
 
     cudaMalloc((void**)&d_curvature, size2d);
     cudaMalloc((void**)&d_phi, size2d);
