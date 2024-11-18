@@ -94,8 +94,6 @@ void writeDataVTK(const string filename, double** phi, double** curvature, doubl
         myfile << single_dimension_curve[i] << "\n";
     }
 
-    cout << "Done writing i guess..." << endl;
-
     // Close file
     myfile.close();
 

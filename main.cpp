@@ -94,7 +94,6 @@ int main(int argc, char *argv[])
 
             thread newThread(function<void(string, double**, double**, double**, double**, int, int, double, double, int)>(writeDataVTK), outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
             newThread.detach();
-            cout << "We here" << endl;
             //writeDataVTK(outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
         }
 
