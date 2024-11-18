@@ -1,94 +1,66 @@
 #include <math.h>
 #include <iostream>
-#include <cooperative_groups.h>
 
 #include "diagnostics.h"
 
 using namespace std;
-namespace cg = cooperative_groups;
 
 // This kernel computes the length (L) of a single cell
 // it does so and writes it to its block-specific shared
 // memory view before reducing it on global memory
-__global__ void singleCellInterfaceLength(double *phi, double *block_results, const int nx, const int ny, const double dx, const double dy, const int unidimensional_size, const double epsilon) {
-    // handle to thread block group
-    cg::thread_block cta = cg::this_thread_block();
-    // dynamically allocated shared memory
-    // its size is given when running the
-    // kernel
-    extern __shared__ double sdata[];
-
+__global__ void singleCellInterfaceLength(double *phi, double *partial_lengths, const int nx, const int ny, const double dx, const double dy, const int unidimensional_size, const double epsilon) {
     // compute unique thread index
-	int tid = threadIdx.x;
     int i = blockIdx.x * blockDim.x + threadIdx.x;
-    
+
     // don't handle non-existent indexes
     if (i >= unidimensional_size) {
-        sdata[tid] = 0;
+        return;
     }
 
     // compute interface length
     double phi_x = (phi[i + 1] - phi[i - 1]) / 2.0 / dx; 
-    double phi_y = (phi[i + nx] - phi[i - nx]) / 2.0 / dy; 
+    double phi_y = (phi[i + (nx - 2)] - phi[i - (nx - 2)]) / 2.0 / dy; 
     // compute the norm of gradient: norm(grad(phi)) 
     double normGrad = sqrt(phi_x * phi_x + phi_y * phi_y);
     // compute the dirac function approximation
     double delta = (1.0 / sqrt(2.0 * M_PI * epsilon)) * exp( - (phi[i] * phi[i]) / (2.0 * epsilon));
     // L = delta * norm(grad(phi)) * dx * dy
     // put data in shared memory
-    sdata[tid] = delta * normGrad * dx * dy;
-
-    // synchronize all threads in block
-    // to ensure they have all computed
-    // and stored their length in shared
-    // memory
-    cg::sync(cta);
-
-    // do reduction in shared memory
-    // it is done in log_2(n) operations
-    for (unsigned int s = blockDim.x / 2; s > 0; s >>= 1) {
-        if (tid < s) {
-            sdata[tid] += sdata[tid + s];
-        }
-        cg::sync(cta);
-    }
-
-    // write the block result to global memory
-    if (tid == 0) block_results[blockIdx.x] = sdata[0];
+    partial_lengths[i] = delta * normGrad * dx * dy;
 }
 
-__global__ void vecAddKernel(double *curvature, double *phi,const double dx, const double dy, const int nx, const int ny)
+__global__ void computeSingleCellCurvature(double *curvature, double *phi,const double dx, const double dy, const int nx, const int ny)
 {
     int i = blockIdx.x * blockDim.x + threadIdx.x;
     int j = blockIdx.y * blockDim.y + threadIdx.y;
 
-    if (i < nx && j < ny)
+    // avoid computing for borders
+    if (i > 0 && i < (nx - 1) && j > 0 && j < (ny - 1))
     {
-        if (phi[j * nx + i] < 3.0 * dx)
+        if (abs(phi[j * nx + i]) < 3.0 * dx)
         {
-            int center = i * ny + j;
-            int left = (i - 1) * ny + j;             // phi[i-1][j]
-            int right = (i + 1) * ny + j;            // phi[i+1][j]
-            int up = i * ny + (j - 1);               // phi[i][j-1]
-            int down = i * ny + (j + 1);             // phi[i][j+1]
-            int up_left = (i - 1) * ny + (j - 1);    // phi[i-1][j-1]
-            int up_right = (i - 1) * ny + (j + 1);   // phi[i-1][j+1]
-            int down_left = (i + 1) * ny + (j - 1);  // phi[i+1][j-1]
-            int down_right = (i + 1) * ny + (j + 1); // phi[i+1][j+1]
+            int center = i + j * nx;
+            int left = (i - 1) + j * nx;             // phi[i-1][j]
+            int right = (i + 1) + j * nx;            // phi[i+1][j]
+            int up = (j - 1) * nx + i;               // phi[i][j-1]
+            int down = (j + 1) * nx + i;             // phi[i][j+1]
+            int up_left = (i - 1) + (j - 1) * nx;    // phi[i-1][j-1]
+            int up_right = (i + 1) + (j - 1) * nx;   // phi[i-1][j+1]
+            int down_left = (i - 1) + (j + 1) * nx;  // phi[i+1][j-1]
+            int down_right = (i + 1) + (j + 1) * nx; // phi[i+1][j+1]
 
             // Compute first derivatives
-            double phi_x = (phi[right] - phi[left]) / (2.0 * dx);
-            double phi_y = (phi[down] - phi[up]) / (2.0 * dy);
+            double phi_x = (phi[right] - phi[left]) / 2.0 / dx;
+            double phi_y = (phi[down] - phi[up]) / 2.0 / dy;
 
             // Compute second derivatives
-            double phi_xx = (phi[right] - 2.0 * phi[center] + phi[left]) / (dx * dx);
-            double phi_yy = (phi[down] - 2.0 * phi[center] + phi[up]) / (dy * dy);
+            double phi_xx = (phi[right] - 2.0 * phi[center] + phi[left]) / dx / dx;
+            double phi_yy = (phi[down] - 2.0 * phi[center] + phi[up]) / dy / dy;
 
             // Compute mixed derivative
-            double phi_xy = (phi[down_right] - phi[down_left] - phi[up_right] + phi[up_left]) / (4.0 * dx * dy);
+            double phi_xy = -(phi[up_right] - phi[down_right] - phi[up_left] + phi[down_left]) / dx / dy / 4.0;
             curvature[j*nx+i] = (phi_xx * phi_y * phi_y - 2.0 * phi_x * phi_y * phi_xy + phi_yy * phi_x * phi_x) /
                                   pow(phi_x * phi_x + phi_y * phi_y, 1.5);
-   
         }
         else
         {
@@ -105,19 +77,19 @@ void computeInterfaceLength(double** phi, const int nx, const int ny, const doub
     double epsilon = 0.001;
     
     // reduce phi to one dimension
-    // borders are not included
-    const int unidimensional_size = (nx - 1) * (ny - 1);
+    // only includes internal cells
+    const int unidimensional_size = (nx - 2) * (ny - 2);
     double* phi_n = new double[unidimensional_size];
     
-    // unidimensional index increment
-    int ii = 0;
     // only copy internal cells
-    for (int i = 1; i < (nx - 1); i++) {
-        for (int j = 1; j < (ny - 1); j++) {
-            // assign value to copy of phi
-            phi_n[ii] = phi[i][j];
+    for (int ii = 1; ii < (nx - 1); ii++) {
+        for (int jj = 1; jj < (ny - 1); jj++) {
+            // different computation as only
+            // internal cells are needed
+            int i = (ii - 1) + ((jj - 1) * (nx - 2));
 
-            ii += 1;
+            // assign value to copy of phi
+            phi_n[i] = phi[ii][jj];
         }
     }
 
@@ -127,39 +99,38 @@ void computeInterfaceLength(double** phi, const int nx, const int ny, const doub
     const int N_BLOCKS = ceil((double)(unidimensional_size)/N_THREADS);
 
     size_t unidimensional_size_bytes = unidimensional_size * sizeof(double);
-    double *d_phi_n, *h_block_results, *d_block_results;
+    double *d_phi_n, *d_partial_lengths, *h_partial_lengths;
     // create host-scoped
     // individual blocks result
-    h_block_results = new double[N_BLOCKS];
+    h_partial_lengths = new double[unidimensional_size];
 
     cudaMalloc((void **)&d_phi_n, unidimensional_size_bytes);
-    cudaMalloc((void **)&d_block_results, N_BLOCKS * sizeof(double));
+    cudaMalloc((void **)&d_partial_lengths, unidimensional_size_bytes);
 
     // copy data to device memory
     cudaMemcpy(d_phi_n, phi_n, unidimensional_size_bytes, cudaMemcpyHostToDevice);
 
     // launch kernel with shared memory size
-    size_t shared_memory_size = N_THREADS * sizeof(double);
-    singleCellInterfaceLength<<<N_BLOCKS, N_THREADS, shared_memory_size>>>(d_phi_n, d_block_results, nx, ny, dx, dy, unidimensional_size, epsilon);
+    singleCellInterfaceLength<<<N_BLOCKS, N_THREADS>>>(d_phi_n, d_partial_lengths, nx, ny, dx, dy, unidimensional_size, epsilon);
     cudaDeviceSynchronize();
 
     // copy block results from
     // device back to host
-    cudaMemcpy(h_block_results, d_block_results, N_BLOCKS * sizeof(double), cudaMemcpyDeviceToHost);
+    cudaMemcpy(h_partial_lengths, d_partial_lengths, unidimensional_size_bytes, cudaMemcpyDeviceToHost);
 
     // final reduction on the host
     double length = 0.0;
-    for (int i = 0; i < N_BLOCKS; i++) {
-        length += h_block_results[i];
+    for (int i = 0; i < unidimensional_size; i++) {
+        length += h_partial_lengths[i];
     }
 
     // free memory on device
 	cudaFree(d_phi_n);
-	cudaFree(d_block_results);
+	cudaFree(d_partial_lengths);
 
     // deallocate memory
     delete[] phi_n;
-    delete[] h_block_results;
+    delete[] h_partial_lengths;
 
     // Print the total interface length 
     cout << "The total interface length is " << length << " m\n";
@@ -175,45 +146,50 @@ void computeInterfaceCurvature(double **phi, double **curvature, const int nx, c
 
     double *h_curvature, *h_phi; 
     double *d_curvature, *d_phi; 
-    size_t size2d = nx * ny * sizeof(double);
+    int size2d = nx * ny;
+    size_t size2d_bytes = size2d * sizeof(double);
 
-    h_curvature = (double*)malloc(size2d);
-    h_phi = (double*)malloc(size2d);
+    h_curvature = (double*)malloc(size2d_bytes);
+    h_phi = (double*)malloc(size2d_bytes);
 
     // flatten both phi and curvature
     // explicitly, may be done in
     // cudaMemcpy directly ?
-    for (int i = 0; i < nx * ny; i++) {
+    // only copy internal cells
+    for (int i = 0; i < size2d; i++) {
+        // different computation as only
+        // internal cells are needed
         int ii = i % nx;
         int jj = floor(i / nx);
-        
+
+        // assign value to copy of phi
         h_phi[i] = phi[ii][jj];
         h_curvature[i] = curvature[ii][jj];
     }
 
-    cudaMalloc((void**)&d_curvature, size2d);
-    cudaMalloc((void**)&d_phi, size2d);
+    cudaMalloc((void**)&d_curvature, size2d_bytes);
+    cudaMalloc((void**)&d_phi, size2d_bytes);
 
-    cudaMemcpy(d_curvature, h_curvature, size2d, cudaMemcpyHostToDevice);
-    cudaMemcpy(d_phi, h_phi, size2d, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_phi, h_phi, size2d_bytes, cudaMemcpyHostToDevice);
 
     dim3 blockDim(10, 10);
     dim3 gridDim((nx + blockDim.x - 1) / blockDim.x, (ny + blockDim.y - 1) / blockDim.y);
-    vecAddKernel<<<gridDim, blockDim>>>(d_curvature, d_phi, dx, dy, nx, ny);
+    computeSingleCellCurvature<<<gridDim, blockDim>>>(d_curvature, d_phi, dx, dy, nx, ny);
     cudaDeviceSynchronize();
     
-    cudaMemcpy(h_curvature, d_curvature, size2d, cudaMemcpyDeviceToHost);
-    cudaMemcpy(h_phi, d_phi, size2d, cudaMemcpyDeviceToHost);
+    cudaMemcpy(h_curvature, d_curvature, size2d_bytes, cudaMemcpyDeviceToHost);
+
     cudaFree(d_curvature);
     cudaFree(d_phi);
 
-    for(int i = 0; i< nx*ny; i++){
-        int jj = i% nx; 
-        int ii = floor(i/nx);
-        curvature[jj][ii] = h_curvature[i];
-        if (abs(curvature[jj][ii]) > maxCurvature)
+    for (int i = 0; i < nx * ny; i++) {
+        int ii = i % nx;
+        int jj = floor(i / nx);
+
+        curvature[ii][jj] = h_curvature[i];
+        if (abs(curvature[ii][jj]) > maxCurvature)
         {
-            maxCurvature = abs(curvature[jj][ii]);
+            maxCurvature = abs(curvature[ii][jj]);
         }
     }
 
