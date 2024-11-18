@@ -108,9 +108,4 @@ void Initialization(double** phi, double** curvature, double** u, double** v, co
 
     // Call the function to compute the interface curvature with updated phi
     computeInterfaceCurvature(phi, curvature, nx, ny, dx, dy);
-
-
-
-
-
 }
