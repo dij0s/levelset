@@ -39,16 +39,25 @@ int main(int argc, char *argv[])
 
     // == Numerical == 
     int outputFrequency = nSteps/40;
-    double** phi = new double*[nx]; // LevelSet field
-    double** curvature = new double*[nx]; // Curvature field
-    double** u = new double*[nx]; // Velocity field in x-direction
-    double** v = new double*[nx]; // Velocity field in y-direction
-    for (int i = 0; i < nx; ++i) {
-        phi[i] = new double[ny];
-        curvature[i] = new double[ny];
-        u[i] = new double[ny];
-        v[i] = new double[ny];
-    }
+    
+    size_t unidimensional_size_bytes = nx * ny * sizeof(double);
+    
+    // double** phi = new double*[nx]; // LevelSet field
+    // double** curvature = new double*[nx]; // Curvature field
+    // double** u = new double*[nx]; // Velocity field in x-direction
+    // double** v = new double*[nx]; // Velocity field in y-direction
+    // for (int i = 0; i < nx; ++i) {
+    //     phi[i] = new double[ny];
+    //     curvature[i] = new double[ny];
+    //     u[i] = new double[ny];
+    //     v[i] = new double[ny];
+    // }
+
+    
+    double* phi = (double*) malloc(unidimensional_size_bytes); // LevelSet field
+    double* curvature = (double*) malloc(unidimensional_size_bytes); // Curvature field
+    double* u = (double*) malloc(unidimensional_size_bytes); // Velocity field in x-direction
+    double* v = (double*) malloc(unidimensional_size_bytes); // Velocity field in y-direction
 
     auto duration_init = duration_cast<nanoseconds>(high_resolution_clock::now() - start_total);
     printf("Execution time of non-p initialization: %ldns\n", duration_init.count());
@@ -74,6 +83,14 @@ int main(int argc, char *argv[])
 
     writeDataVTK(outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
 
+    // setup array copies
+    const int unidimensional_size = nx * ny;
+    
+    double* phi_copy = new double[unidimensional_size];
+    double* curvature_copy = new double[unidimensional_size];
+    double* u_copy = new double[unidimensional_size];
+    double* v_copy = new double[unidimensional_size];
+
     // Loop over time
     for (int step = 1; step <= nSteps; step++){
 
@@ -91,10 +108,16 @@ int main(int argc, char *argv[])
 
         // Write data to output file
         if (step%outputFrequency == 0){
+            // copy data into array copies
+            for (int i = 0; i < unidimensional_size; i++) {
+                phi_copy[i] = phi[i];
+                curvature_copy[i] = curvature[i];
+                u_copy[i] = u[i];
+                v_copy[i] = v[i];
+            }
 
-            thread newThread(function<void(string, double**, double**, double**, double**, int, int, double, double, int)>(writeDataVTK), outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
+            thread newThread(function<void(string, double*, double*, double*, double*, int, int, double, double, int)>(writeDataVTK), outputName, phi_copy, curvature_copy, u_copy, v_copy, nx, ny, dx, dy, count++);
             newThread.detach();
-            //writeDataVTK(outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
         }
 
     }
@@ -102,10 +125,15 @@ int main(int argc, char *argv[])
     auto start_deallocate = high_resolution_clock::now();
 
     // Deallocate memory
-    for (int i = 0; i < nx; ++i) {
-        delete[] phi[i];
-    }
     delete[] phi;
+    delete[] curvature;
+    delete[] u;
+    delete[] v;
+
+    delete[] phi_copy;
+    delete[] curvature_copy;
+    delete[] u_copy;
+    delete[] v_copy;
 
     auto duration_deallocate = duration_cast<nanoseconds>(high_resolution_clock::now() - start_deallocate);
     printf("Execution time of memory deallocation: %ldns\n", duration_deallocate.count());
@@ -113,5 +141,7 @@ int main(int argc, char *argv[])
     auto duration_total = duration_cast<milliseconds>(high_resolution_clock::now() - start_total);
     printf("Total execution time for %fs of simulation: %ldms\n", tFinal, duration_total.count());
 
+    // must wait for writing
+    // thread to finish
     return 0;
 }
