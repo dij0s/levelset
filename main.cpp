@@ -4,6 +4,8 @@
 #include <string>
 #include <sys/stat.h>
 #include <chrono>
+#include <thread>
+#include <functional>
 
 // == User lib ==
 #include "diagnostics/diagnostics.h"
@@ -71,7 +73,7 @@ int main(int argc, char *argv[])
     printf("Execution time of non-p writing: %ldns\n", duration_write.count());
 
     writeDataVTK(outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
-    
+
     // Loop over time
     for (int step = 1; step <= nSteps; step++){
 
@@ -89,7 +91,11 @@ int main(int argc, char *argv[])
 
         // Write data to output file
         if (step%outputFrequency == 0){
-            writeDataVTK(outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
+
+            thread newThread(function<void(string, double**, double**, double**, double**, int, int, double, double, int)>(writeDataVTK), outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
+            newThread.detach();
+            cout << "We here" << endl;
+            //writeDataVTK(outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
         }
 
     }
