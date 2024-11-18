@@ -28,7 +28,7 @@ __global__ void singleCellInterfaceLength(double *phi, double *partial_lengths, 
 
     // compute interface length
     double phi_x = (phi[i + 1] - phi[i - 1]) / 2.0 / dx; 
-    double phi_y = (phi[i + (nx - 2)] - phi[i - (nx - 2)]) / 2.0 / dy; 
+    double phi_y = (phi[i + nx] - phi[i - nx]) / 2.0 / dy; 
     // compute the norm of gradient: norm(grad(phi)) 
     double normGrad = sqrt(phi_x * phi_x + phi_y * phi_y);
     // compute the dirac function approximation

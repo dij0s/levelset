@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 
     // Data Initialization
     // == Spatial ==
-    int scale = 1; 
+    int scale = 1;
     if (argc > 1){scale = stoi(argv[1]);}
     
     int nx = 100*scale; int ny = 100*scale; // Number of cells in each direction 
