@@ -42,18 +42,6 @@ int main(int argc, char *argv[])
     
     size_t unidimensional_size_bytes = nx * ny * sizeof(double);
     
-    // double** phi = new double*[nx]; // LevelSet field
-    // double** curvature = new double*[nx]; // Curvature field
-    // double** u = new double*[nx]; // Velocity field in x-direction
-    // double** v = new double*[nx]; // Velocity field in y-direction
-    // for (int i = 0; i < nx; ++i) {
-    //     phi[i] = new double[ny];
-    //     curvature[i] = new double[ny];
-    //     u[i] = new double[ny];
-    //     v[i] = new double[ny];
-    // }
-
-    
     double* phi = (double*) malloc(unidimensional_size_bytes); // LevelSet field
     double* curvature = (double*) malloc(unidimensional_size_bytes); // Curvature field
     double* u = (double*) malloc(unidimensional_size_bytes); // Velocity field in x-direction
