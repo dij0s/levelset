@@ -17,6 +17,15 @@ __global__ void singleCellInterfaceLength(double *phi, double *partial_lengths, 
         return;
     }
 
+    // avoid computing for borders
+    int ii = i % nx;
+    int jj = floor((double)i / nx);
+
+    if (ii == 0 || ii == nx - 1 || jj == 0 || jj == ny - 1) {
+        partial_lengths[i] = 0.0;
+        return;
+    }
+
     // compute interface length
     double phi_x = (phi[i + 1] - phi[i - 1]) / 2.0 / dx; 
     double phi_y = (phi[i + (nx - 2)] - phi[i - (nx - 2)]) / 2.0 / dy; 
@@ -72,27 +81,14 @@ __global__ void computeSingleCellCurvature(double *curvature, double *phi,const 
 // The total interface length (L) is computed by following the following algorithm
 // L ~ sum_{i,j} delta(phi_{i,j}) norm (grad(phi)) dx dy
 // with delta(phi) an approximation of the dirac function := delta(phi) = 1 / sqrt (2 * pi * epsilon) * exp (- phi*phi / 2 / epsilon) 
-void computeInterfaceLength(double** phi, const int nx, const int ny, const double dx, const double dy){
+void computeInterfaceLength(double* phi, const int nx, const int ny, const double dx, const double dy){
     // Fixed parameter for the dirac function
     double epsilon = 0.001;
     
     // reduce phi to one dimension
     // only includes internal cells
-    const int unidimensional_size = (nx - 2) * (ny - 2);
-    double* phi_n = new double[unidimensional_size];
+    const int unidimensional_size = nx * ny;
     
-    // only copy internal cells
-    for (int ii = 1; ii < (nx - 1); ii++) {
-        for (int jj = 1; jj < (ny - 1); jj++) {
-            // different computation as only
-            // internal cells are needed
-            int i = (ii - 1) + ((jj - 1) * (nx - 2));
-
-            // assign value to copy of phi
-            phi_n[i] = phi[ii][jj];
-        }
-    }
-
     // allocate memory on the device
     // for host-scoped data
     const int N_THREADS = 1024;
@@ -108,7 +104,7 @@ void computeInterfaceLength(double** phi, const int nx, const int ny, const doub
     cudaMalloc((void **)&d_partial_lengths, unidimensional_size_bytes);
 
     // copy data to device memory
-    cudaMemcpy(d_phi_n, phi_n, unidimensional_size_bytes, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_phi_n, phi, unidimensional_size_bytes, cudaMemcpyHostToDevice);
 
     // launch kernel with shared memory size
     singleCellInterfaceLength<<<N_BLOCKS, N_THREADS>>>(d_phi_n, d_partial_lengths, nx, ny, dx, dy, unidimensional_size, epsilon);
@@ -129,7 +125,6 @@ void computeInterfaceLength(double** phi, const int nx, const int ny, const doub
 	cudaFree(d_partial_lengths);
 
     // deallocate memory
-    delete[] phi_n;
     delete[] h_partial_lengths;
 
     // Print the total interface length 
@@ -140,61 +135,35 @@ void computeInterfaceLength(double** phi, const int nx, const int ny, const doub
 // curvature = (phi_xx * phi_y **2 - 2.0 * phi_x * phi_y * phi_xy + phi_yy * phi_x **2) / (phi_x **2 + phi_y **2) ** (3/2)
 // with phi_x:= d phi / dx, phi_y:= d phi / dy
 // and phi_xx:= d phi_x / dx, phi_yy:= d phi_y / dy, phi_xy:= d phi_x / dy
-void computeInterfaceCurvature(double **phi, double **curvature, const int nx, const int ny, const double dx, const double dy)
+void computeInterfaceCurvature(double *phi, double *curvature, const int nx, const int ny, const double dx, const double dy)
 {
     double maxCurvature = 0.0;
 
-    double *h_curvature, *h_phi; 
     double *d_curvature, *d_phi; 
     int size2d = nx * ny;
     size_t size2d_bytes = size2d * sizeof(double);
 
-    h_curvature = (double*)malloc(size2d_bytes);
-    h_phi = (double*)malloc(size2d_bytes);
-
-    // flatten both phi and curvature
-    // explicitly, may be done in
-    // cudaMemcpy directly ?
-    // only copy internal cells
-    for (int i = 0; i < size2d; i++) {
-        // different computation as only
-        // internal cells are needed
-        int ii = i % nx;
-        int jj = floor(i / nx);
-
-        // assign value to copy of phi
-        h_phi[i] = phi[ii][jj];
-        h_curvature[i] = curvature[ii][jj];
-    }
-
     cudaMalloc((void**)&d_curvature, size2d_bytes);
     cudaMalloc((void**)&d_phi, size2d_bytes);
 
-    cudaMemcpy(d_phi, h_phi, size2d_bytes, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_phi, phi, size2d_bytes, cudaMemcpyHostToDevice);
 
     dim3 blockDim(10, 10);
     dim3 gridDim((nx + blockDim.x - 1) / blockDim.x, (ny + blockDim.y - 1) / blockDim.y);
     computeSingleCellCurvature<<<gridDim, blockDim>>>(d_curvature, d_phi, dx, dy, nx, ny);
     cudaDeviceSynchronize();
     
-    cudaMemcpy(h_curvature, d_curvature, size2d_bytes, cudaMemcpyDeviceToHost);
+    cudaMemcpy(curvature, d_curvature, size2d_bytes, cudaMemcpyDeviceToHost);
 
     cudaFree(d_curvature);
     cudaFree(d_phi);
 
-    for (int i = 0; i < nx * ny; i++) {
-        int ii = i % nx;
-        int jj = floor(i / nx);
-
-        curvature[ii][jj] = h_curvature[i];
-        if (abs(curvature[ii][jj]) > maxCurvature)
+    for (int i = 0; i < size2d; i++) {
+        if (abs(curvature[i]) > maxCurvature)
         {
-            maxCurvature = abs(curvature[ii][jj]);
+            maxCurvature = abs(curvature[i]);
         }
     }
-
-    free(h_phi);
-    free(h_curvature);
 
     cout << "The maximum curvature is " << maxCurvature << " m^{-2}\n";
 }

@@ -9,28 +9,9 @@
 using namespace std;
 
 // Write data to VTK file  
-void writeDataVTK(const string filename, double** phi, double** curvature, double** u, double** v, const int nx, const int ny, const double dx, const double dy, const int step){
-
-    const int unidimensional_size = nx * ny;
+void writeDataVTK(const string filename, double* phi, double* curvature, double* u, double* v, const int nx, const int ny, const double dx, const double dy, const int step){
+    int unidimensional_size = nx * ny;
     
-    double* phi_n = new double[unidimensional_size];
-    double* single_dimension_curve = new double[unidimensional_size];
-    double* single_dimension_u = new double[unidimensional_size];
-    double* single_dimension_v = new double[unidimensional_size];
-    
-    for (int i = 0; i < unidimensional_size; i++) {
-        // compute two dimensional index
-        int ii = i % nx;
-        int jj = floor(i / nx);
-
-        // assign value to copy of phi
-        // and dimension-reduced u and v
-        phi_n[i] = phi[ii][jj];
-        single_dimension_curve[i] = curvature[ii][jj];
-        single_dimension_u[i] = u[ii][jj];
-        single_dimension_v[i] = v[ii][jj];
-    }
-
     // Create the filename 
     string filename_all = "0000000"+to_string(step);
     reverse(filename_all.begin(), filename_all.end());
@@ -67,7 +48,7 @@ void writeDataVTK(const string filename, double** phi, double** curvature, doubl
     myfile << "LOOKUP_TABLE default\n";
 
     for (int i = 0; i < unidimensional_size; i++){
-        myfile << phi_n[i] << "\n";
+        myfile << phi[i] << "\n";
     }
 
     // Write the x velocity values (loop over ny then nx)
@@ -75,7 +56,7 @@ void writeDataVTK(const string filename, double** phi, double** curvature, doubl
     myfile << "LOOKUP_TABLE default\n";
 
     for (int i = 0; i < unidimensional_size; i++){
-        myfile << single_dimension_u[i] << "\n";
+        myfile << u[i] << "\n";
     }
 
     // Write the y velocity values (loop over ny then nx)
@@ -83,7 +64,7 @@ void writeDataVTK(const string filename, double** phi, double** curvature, doubl
     myfile << "LOOKUP_TABLE default\n";
 
     for (int i = 0; i < unidimensional_size; i++){
-        myfile << single_dimension_v[i] << "\n";
+        myfile << v[i] << "\n";
     }
 
     // Write the curvature values (loop over ny then nx)
@@ -91,7 +72,7 @@ void writeDataVTK(const string filename, double** phi, double** curvature, doubl
     myfile << "LOOKUP_TABLE default\n";
 
     for (int i = 0; i < unidimensional_size; i++){
-        myfile << single_dimension_curve[i] << "\n";
+        myfile << curvature[i] << "\n";
     }
 
     cout << "Done writing i guess..." << endl;

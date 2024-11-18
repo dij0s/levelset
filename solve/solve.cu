@@ -50,17 +50,17 @@ __global__ void singleCellEquationExplicit(double *phi, double *phi_n, double *u
 }
 
 // Compute the boundaries of the domain for the phi field
-void computeBoundaries(double** phi, const int nx, const int ny){
+void computeBoundaries(double* phi, const int nx, const int ny){
     // Upper and Lower boundaries (extrapolation)
     for (int i = 0; i < nx ; i++){
-        phi[i][ny-1] = 2.0 * phi[i][ny-2] - phi[i][ny-3];
-        phi[i][0] = 2.0 * phi[i][1] - phi[i][2];
+        phi[i] = 2.0 * phi[i + nx] - phi[i + 2 * nx];
+        phi[i + nx * (ny - 1)] = 2.0 * phi[i + nx * (ny - 2)] - phi[i + nx * (ny - 3)];
     }
 
     // Left and Right boundaries (extrapolation)
     for (int j = 0; j < ny; j++){
-        phi[0][j] = 2.0 * phi[1][j] - phi[2][j];
-        phi[nx-1][j] = 2.0 * phi[nx-2][j] - phi[nx-3][j];
+        phi[j * nx] = 2.0 * phi[1 + j * nx] - phi[2 + j * nx];
+        phi[(j * nx) + nx - 1] = 2.0 * phi[(j * nx) + nx - 2] - phi[(j * nx) + nx - 3];
     }
 }
 
@@ -70,27 +70,15 @@ void computeBoundaries(double** phi, const int nx, const int ny){
 // Using the euler explicit numerical scheme => phi = phi_n - (u d phi / dx + v d phi / dy)
 // A first order upwind scheme is used to stabilize the solver (https://en.wikipedia.org/wiki/Upwind_scheme)
 void solveAdvectionEquationExplicit(
-    double** phi, double** u, double** v, const int nx, const int ny, const double dx, const double dy, const double dt){
+    double* phi, double* u, double* v, const int nx, const int ny, const double dx, const double dy, const double dt){
 
-    // Copy phi to phi_n
-    // phi is reduced to a
-    // unidimentional datastructure
     const int unidimensional_size = nx * ny;
     
     double* phi_n = new double[unidimensional_size];
-    double* single_dimension_u = new double[unidimensional_size];
-    double* single_dimension_v = new double[unidimensional_size];
     
     for (int i = 0; i < unidimensional_size; i++) {
-        // compute two dimensional index
-        int ii = i % nx;
-        int jj = floor(i / nx);
-
         // assign value to copy of phi
-        // and dimension-reduced u and v
-        phi_n[i] = phi[ii][jj];
-        single_dimension_u[i] = u[ii][jj];
-        single_dimension_v[i] = v[ii][jj];
+        phi_n[i] = phi[i];
     }
 
     // Compute the advection equation 
@@ -107,8 +95,8 @@ void solveAdvectionEquationExplicit(
 
     // copy data to device memory
     cudaMemcpy(d_phi_n, phi_n, unidimensional_size_bytes, cudaMemcpyHostToDevice);
-    cudaMemcpy(d_u, single_dimension_u, unidimensional_size_bytes, cudaMemcpyHostToDevice);
-    cudaMemcpy(d_v, single_dimension_v, unidimensional_size_bytes, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_u, u, unidimensional_size_bytes, cudaMemcpyHostToDevice);
+    cudaMemcpy(d_v, v, unidimensional_size_bytes, cudaMemcpyHostToDevice);
 
     const int N_THREADS = 1024;
     const int N_BLOCKS = ceil((double)(unidimensional_size)/N_THREADS);
@@ -125,12 +113,9 @@ void solveAdvectionEquationExplicit(
 	cudaFree(d_u);
 	cudaFree(d_v);
 
-    // transform back to 2d array
+    // copy back to array
     for (int i = 0; i < unidimensional_size; i++) {
-        int ii = i % nx;
-        int jj = floor(i / nx);
-        
-        phi[ii][jj] = phi_n[i];
+        phi[i] = phi_n[i];
     }
 
     // Refresh the boundaries values
@@ -138,6 +123,4 @@ void solveAdvectionEquationExplicit(
 
     // Deallocate memory
     delete[] phi_n;
-    delete[] single_dimension_u;
-    delete[] single_dimension_v;
 }
