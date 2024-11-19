@@ -5,8 +5,8 @@
 #include <sys/stat.h>
 #include <chrono>
 #include <functional>
-// #include <cuda.h>
 #include <thread>
+#include <cuda.h>
 // == User lib ==
 #include "diagnostics/diagnostics.h"
 #include "initialization/init.h"
@@ -69,28 +69,28 @@ int main(int argc, char *argv[])
     auto duration_write = duration_cast<nanoseconds>(high_resolution_clock::now() - start_write);
     printf("Execution time of non-p writing: %ldns\n", duration_write.count());
 
-    writeDataVTK(outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
+    // writeDataVTK(outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
 
     // setup array copy pointers
     // for future file IOs
     int unidimensional_size = nx * ny;
-    double* phi_copy = new double[unidimensional_size];
-    double* curvature_copy = new double[unidimensional_size];
-    double* u_copy = new double[unidimensional_size];
-    double* v_copy = new double[unidimensional_size];
+    // double* phi_copy = new double[unidimensional_size];
+    // double* curvature_copy = new double[unidimensional_size];
+    // double* u_copy = new double[unidimensional_size];
+    // double* v_copy = new double[unidimensional_size];
 
     // setup array pointers for
     // device data and allocate
     // in device memory
-    double *d_distance, *d_phi, *d_u, *d_v, *d_phi_n, *d_partial_lengths, *d_curvature;
+    // double *d_distance, *d_phi, *d_u, *d_v, *d_phi_n, *d_partial_lengths, *d_curvature;
 
     // cudaMalloc((void**)&d_distance, unidimensional_size_bytes);
     // cudaMalloc((void**)&d_phi, unidimensional_size_bytes);
     // cudaMalloc((void**)&d_u, unidimensional_size_bytes);
     // cudaMalloc((void**)&d_v, unidimensional_size_bytes);
-    // cudaMalloc((void **)&d_phi_n, unidimensional_size_bytes);
-    // cudaMalloc((void **)&d_partial_lengths, unidimensional_size_bytes);
-    // cudaMalloc((void **)&d_curvature, unidimensional_size_bytes);
+    // cudaMalloc((void**)&d_phi_n, unidimensional_size_bytes);
+    // cudaMalloc((void**)&d_partial_lengths, unidimensional_size_bytes);
+    // cudaMalloc((void**)&d_curvature, unidimensional_size_bytes);
 
     // Loop over time
     for (int step = 1; step <= nSteps; step++){
@@ -106,19 +106,22 @@ int main(int argc, char *argv[])
         // Diagnostics: interface curvature
         computeInterfaceCurvature(phi, curvature, nx, ny, dx, dy);
     
-        // if (step%outputFrequency == 0){
-        //     // copy data into array copies
-        //     // to ensure data consistency
-        //     for (int i = 0; i < unidimensional_size; i++) {
-        //         phi_copy[i] = phi[i];
-        //         curvature_copy[i] = curvature[i];
-        //         u_copy[i] = u[i];
-        //         v_copy[i] = v[i];
-        //     }
-
-        //     thread newThread(function<void(string, double*, double*, double*, double*, int, int, double, double, int)>(writeDataVTK), outputName, phi_copy, curvature_copy, u_copy, v_copy, nx, ny, dx, dy, count++);
-        //     newThread.detach();
-        // }
+        if (step%outputFrequency == 0){
+            // copy data into array copies
+            // to ensure data consistency
+            for (int i = 0; i < unidimensional_size; i++) {
+                phi_copy[i] = phi[i];
+                curvature_copy[i] = curvature[i];
+                u_copy[i] = u[i];
+                v_copy[i] = v[i];
+            }
+        
+            thread newThread([=]() {
+                writeDataVTK(outputName, phi_copy, curvature_copy, u_copy, v_copy, nx, ny, dx, dy, count);
+            });
+            count++;
+            newThread.detach();
+        }
     }
 
     auto start_deallocate = high_resolution_clock::now();
@@ -138,10 +141,10 @@ int main(int argc, char *argv[])
     delete[] u;
     delete[] v;
 
-    delete[] phi_copy;
-    delete[] curvature_copy;
-    delete[] u_copy;
-    delete[] v_copy;
+    // delete[] phi_copy;
+    // delete[] curvature_copy;
+    // delete[] u_copy;
+    // delete[] v_copy;
    
     auto duration_deallocate = duration_cast<nanoseconds>(high_resolution_clock::now() - start_deallocate);
     printf("Execution time of memory deallocation: %ldns\n", duration_deallocate.count());

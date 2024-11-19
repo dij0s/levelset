@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
     
     stringstream ss;
     ss << scale;
-    string scaleStr = ss.str();
+    scaleStr = ss.str();
 
     string outputName =  "output/levelSet_scale"+scaleStr+"_";
     int count = 0; // Number of VTK file already written 
