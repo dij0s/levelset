@@ -5,6 +5,6 @@
 #SBATCH --tasks=1 # Number of tasks
 #SBATCH --gpus-per-node=1 # Require GPUs
 #SBATCH --time=0-00:10 # Maximum runtime (D-HH:MM)
-#SBATCH --nodelist=calypso[0,1]
+#SBATCH --nodelist=calypso5
 
 ./run_serpentin

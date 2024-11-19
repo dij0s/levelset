@@ -1,6 +1,0 @@
-nvcc main.cu write/write.cpp initialization/init.cu solve/solve.cu diagnostics/diagnostics.cu -o run_serpentin
-nvcc main.cu write/write.cpp initialization/init.cu solve/solve.cu diagnostics/diagnostics.cu -o run_serpentin
-nvcc main.cu write/write.cpp initialization/init.cu solve/solve.cu diagnostics/diagnostics.cu -o run_serpentin
-nvcc main.cu write/write.cpp initialization/init.cu solve/solve.cu diagnostics/diagnostics.cu -o run_serpentin
-nvcc main.cu write/write.cpp initialization/init.cu solve/solve.cu diagnostics/diagnostics.cu -o run_serpentin
-nvcc main.cu write/write.cpp initialization/init.cu solve/solve.cu diagnostics/diagnostics.cu -o run_serpentin
