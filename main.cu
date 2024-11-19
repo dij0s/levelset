@@ -69,15 +69,15 @@ int main(int argc, char *argv[])
     auto duration_write = duration_cast<nanoseconds>(high_resolution_clock::now() - start_write);
     printf("Execution time of non-p writing: %ldns\n", duration_write.count());
 
-    // writeDataVTK(outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
+    writeDataVTK(outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
 
     // setup array copy pointers
     // for future file IOs
     int unidimensional_size = nx * ny;
-    // double* phi_copy = new double[unidimensional_size];
-    // double* curvature_copy = new double[unidimensional_size];
-    // double* u_copy = new double[unidimensional_size];
-    // double* v_copy = new double[unidimensional_size];
+    double* phi_copy = new double[unidimensional_size];
+    double* curvature_copy = new double[unidimensional_size];
+    double* u_copy = new double[unidimensional_size];
+    double* v_copy = new double[unidimensional_size];
 
     // setup array pointers for
     // device data and allocate
