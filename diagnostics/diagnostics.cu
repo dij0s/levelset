@@ -95,16 +95,10 @@ void computeInterfaceLength(double* phi, const int nx, const int ny, const doubl
     const int N_BLOCKS = ceil((double)(unidimensional_size)/N_THREADS);
 
     size_t unidimensional_size_bytes = unidimensional_size * sizeof(double);
-    double *d_phi_n, *d_partial_lengths, *h_partial_lengths;
     // create host-scoped
     // individual blocks result
+    double *h_partial_lengths;
     h_partial_lengths = new double[unidimensional_size];
-
-    cudaMalloc((void **)&d_phi_n, unidimensional_size_bytes);
-    cudaMalloc((void **)&d_partial_lengths, unidimensional_size_bytes);
-
-    // copy data to device memory
-    cudaMemcpy(d_phi_n, phi, unidimensional_size_bytes, cudaMemcpyHostToDevice);
 
     // launch kernel with shared memory size
     singleCellInterfaceLength<<<N_BLOCKS, N_THREADS>>>(d_phi_n, d_partial_lengths, nx, ny, dx, dy, unidimensional_size, epsilon);
@@ -120,9 +114,7 @@ void computeInterfaceLength(double* phi, const int nx, const int ny, const doubl
         length += h_partial_lengths[i];
     }
 
-    // free memory on device
-	cudaFree(d_phi_n);
-	cudaFree(d_partial_lengths);
+
 
     // deallocate memory
     delete[] h_partial_lengths;
@@ -139,14 +131,8 @@ void computeInterfaceCurvature(double *phi, double *curvature, const int nx, con
 {
     double maxCurvature = 0.0;
 
-    double *d_curvature, *d_phi; 
     int size2d = nx * ny;
     size_t size2d_bytes = size2d * sizeof(double);
-
-    cudaMalloc((void**)&d_curvature, size2d_bytes);
-    cudaMalloc((void**)&d_phi, size2d_bytes);
-
-    cudaMemcpy(d_phi, phi, size2d_bytes, cudaMemcpyHostToDevice);
 
     dim3 blockDim(10, 10);
     dim3 gridDim((nx + blockDim.x - 1) / blockDim.x, (ny + blockDim.y - 1) / blockDim.y);
@@ -154,9 +140,6 @@ void computeInterfaceCurvature(double *phi, double *curvature, const int nx, con
     cudaDeviceSynchronize();
     
     cudaMemcpy(curvature, d_curvature, size2d_bytes, cudaMemcpyDeviceToHost);
-
-    cudaFree(d_curvature);
-    cudaFree(d_phi);
 
     for (int i = 0; i < size2d; i++) {
         if (abs(curvature[i]) > maxCurvature)

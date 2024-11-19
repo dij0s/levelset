@@ -4,9 +4,9 @@
 #include <string>
 #include <sys/stat.h>
 #include <chrono>
-#include <thread>
 #include <functional>
-
+#include <cuda.h>
+#include <thread>
 // == User lib ==
 #include "diagnostics/diagnostics.h"
 #include "initialization/init.h"
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 
     // Data Initialization
     // == Spatial ==
-    int scale = 1;
+    int scale = 1; 
     if (argc > 1){scale = stoi(argv[1]);}
     
     int nx = 100*scale; int ny = 100*scale; // Number of cells in each direction 
@@ -49,7 +49,9 @@ int main(int argc, char *argv[])
 
     auto duration_init = duration_cast<nanoseconds>(high_resolution_clock::now() - start_total);
     printf("Execution time of non-p initialization: %ldns\n", duration_init.count());
+    
 
+   
     Initialization(phi, curvature, u, v, nx, ny, dx, dy); // Initialize the distance function field 
     computeBoundaries(phi, nx, ny); // Extrapolate phi on the boundaries
     // == Output ==
@@ -81,6 +83,15 @@ int main(int argc, char *argv[])
 
     // Loop over time
     for (int step = 1; step <= nSteps; step++){
+        double  *d_distance, *d_phi, *d_u, *d_v, *d_phi_n, *d_partial_lengths, *d_curvature;
+
+    cudaMalloc((void**)&d_distance, unidimensional_size_bytes);
+    cudaMalloc((void**)&d_phi, unidimensional_size_bytes);
+    cudaMalloc((void**)&d_u, unidimensional_size_bytes);
+    cudaMalloc((void**)&d_v, unidimensional_size_bytes);
+    cudaMalloc((void **)&d_phi_n, unidimensional_size_bytes);
+    cudaMalloc((void **)&d_partial_lengths, unidimensional_size_bytes);
+    cudaMalloc((void **)&d_curvature, unidimensional_size_bytes);
 
         time += dt; // Simulation time increases
         cout << "\nStarting iteration step " << step << "/"<< nSteps << "\tTime " << time << "s\n"; 
@@ -93,8 +104,17 @@ int main(int argc, char *argv[])
 
         // Diagnostics: interface curvature
         computeInterfaceCurvature(phi, curvature, nx, ny, dx, dy);
-
+        
         // Write data to output file
+        // Deallocate GPU memory
+        cudaFree(d_distance);
+        cudaFree(d_phi);
+        cudaFree(d_u);
+        cudaFree(d_v);
+        cudaFree(d_phi_n);
+        cudaFree(d_partial_lengths);
+        cudaFree(d_curvature);
+
         if (step%outputFrequency == 0){
             // copy data into array copies
             for (int i = 0; i < unidimensional_size; i++) {
@@ -106,6 +126,7 @@ int main(int argc, char *argv[])
 
             thread newThread(function<void(string, double*, double*, double*, double*, int, int, double, double, int)>(writeDataVTK), outputName, phi_copy, curvature_copy, u_copy, v_copy, nx, ny, dx, dy, count++);
             newThread.detach();
+            
         }
 
     }
@@ -122,7 +143,7 @@ int main(int argc, char *argv[])
     delete[] curvature_copy;
     delete[] u_copy;
     delete[] v_copy;
-
+   
     auto duration_deallocate = duration_cast<nanoseconds>(high_resolution_clock::now() - start_deallocate);
     printf("Execution time of memory deallocation: %ldns\n", duration_deallocate.count());
 

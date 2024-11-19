@@ -73,7 +73,6 @@ void solveAdvectionEquationExplicit(
     double* phi, double* u, double* v, const int nx, const int ny, const double dx, const double dy, const double dt){
 
     const int unidimensional_size = nx * ny;
-    
     double* phi_n = new double[unidimensional_size];
     
     for (int i = 0; i < unidimensional_size; i++) {
@@ -86,17 +85,9 @@ void solveAdvectionEquationExplicit(
     // allocate memory on the device
     // for host-scoped data
     size_t unidimensional_size_bytes = unidimensional_size * sizeof(double);
-    double *d_phi, *d_phi_n, *d_u, *d_v;
 
-    cudaMalloc((void **)&d_phi, unidimensional_size_bytes);
-    cudaMalloc((void **)&d_phi_n, unidimensional_size_bytes);
-    cudaMalloc((void **)&d_u, unidimensional_size_bytes);
-    cudaMalloc((void **)&d_v, unidimensional_size_bytes);
 
-    // copy data to device memory
     cudaMemcpy(d_phi_n, phi_n, unidimensional_size_bytes, cudaMemcpyHostToDevice);
-    cudaMemcpy(d_u, u, unidimensional_size_bytes, cudaMemcpyHostToDevice);
-    cudaMemcpy(d_v, v, unidimensional_size_bytes, cudaMemcpyHostToDevice);
 
     const int N_THREADS = 1024;
     const int N_BLOCKS = ceil((double)(unidimensional_size)/N_THREADS);
@@ -107,11 +98,6 @@ void solveAdvectionEquationExplicit(
     // copy result from device back to host
 	cudaMemcpy(phi_n, d_phi, unidimensional_size_bytes, cudaMemcpyDeviceToHost);
 
-    // free memory on device
-	cudaFree(d_phi);
-	cudaFree(d_phi_n);
-	cudaFree(d_u);
-	cudaFree(d_v);
 
     // copy back to array
     for (int i = 0; i < unidimensional_size; i++) {
