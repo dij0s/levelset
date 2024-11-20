@@ -1,0 +1,11 @@
+meh -> programme de base avec tab 2d et plein de cudaMallocs
+faster -> toujours plein de cudaMalloc mais tableaux 1d
+fastest -> Malloc une fois au début du programme
+
+Fait pour 2 fct dans Nsight
+
+Summaries
+meh: 10% sur run_serpentin a cause des copies et du passage de tab2d a 1d
+faster: run_serpentin plus efficace
+fastest: temps de cudaMalloc réduit
+on vois pas grand chose, p-e. faire ça avec nvprof? plus facile a visualiser?

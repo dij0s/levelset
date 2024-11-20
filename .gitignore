@@ -1,2 +1,5 @@
+.gitignore
 run.sh
 .vscode
+IMPORTANT.txt
+run 1.sh
