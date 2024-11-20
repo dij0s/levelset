@@ -49,19 +49,40 @@ __global__ void singleCellEquationExplicit(double *phi, double *phi_n, double *u
     } 
 }
 
+// This kernel computes and updates
+// the boundaries of phi
+__global__ void singleCellBoundaries(double *phi, const int nx, const int ny) {
+    // compute unique thread index
+	int i = blockIdx.x * blockDim.x + threadIdx.x;
+
+    // compute 2d-equivalent index
+    int ii = i % nx;
+    int jj = floor((double)i / nx);
+
+    // only handle cell if it is on boundary
+    // extrapolate to compute its value
+    if (ii == 0) {
+        phi[i] = 2.0 * phi[i + nx] - phi[i + 2 * nx];
+    } else if (ii == nx - 1) {
+        phi[i] = 2.0 * phi[i - ny] - phi[i - 2 * ny];
+    } else if (jj == 0) {
+        phi[i] = 2.0 * phi[i + 1] - phi[i + 2];
+    } else if (jj = ny - 1) {
+        phi[i] = 2.0 * phi[i - 1] - phi[i - 2];
+    } else {
+        return;
+    }
+}
+
 // Compute the boundaries of the domain for the phi field
 void computeBoundaries(double* phi, const int nx, const int ny){
-    // Upper and Lower boundaries (extrapolation)
-    for (int i = 0; i < nx ; i++){
-        phi[i] = 2.0 * phi[i + nx] - phi[i + 2 * nx];
-        phi[i + nx * (ny - 1)] = 2.0 * phi[i + nx * (ny - 2)] - phi[i + nx * (ny - 3)];
-    }
+    int unidimensional_size = nx * ny;
 
-    // Left and Right boundaries (extrapolation)
-    for (int j = 0; j < ny; j++){
-        phi[j * nx] = 2.0 * phi[1 + j * nx] - phi[2 + j * nx];
-        phi[(j * nx) + nx - 1] = 2.0 * phi[(j * nx) + nx - 2] - phi[(j * nx) + nx - 3];
-    }
+    const int N_THREADS = 1024;
+    const int N_BLOCKS = ceil((double)(unidimensional_size)/N_THREADS);
+
+    singleCellBoundaries<<<N_THREADS, N_BLOCKS>>>(phi, nx, ny);
+    cudaDeviceSynchronize();
 }
 
 
@@ -70,23 +91,18 @@ void computeBoundaries(double* phi, const int nx, const int ny){
 // Using the euler explicit numerical scheme => phi = phi_n - (u d phi / dx + v d phi / dy)
 // A first order upwind scheme is used to stabilize the solver (https://en.wikipedia.org/wiki/Upwind_scheme)
 void solveAdvectionEquationExplicit(
-    double* phi, double* u, double* v, const int nx, const int ny, const double dx, const double dy, const double dt, double* d_phi, double * d_phi_n, double* d_u, double* d_v){
+    double *d_phi, double *d_phi_n, double *d_u, double *d_v, const int nx, const int ny, const int dx, const int dy, const double dt){
 
     const int unidimensional_size = nx * ny;
+    size_t unidimensional_size_bytes = nx * ny * sizeof(double);
     double* phi_n = new double[unidimensional_size];
     
-    for (int i = 0; i < unidimensional_size; i++) {
-        // assign value to copy of phi
-        phi_n[i] = phi[i];
-    }
+    cudaMemcpy(phi_n, d_phi, unidimensional_size_bytes, cudaMemcpyDeviceToHost);
 
     // Compute the advection equation 
     
     // allocate memory on the device
     // for host-scoped data
-    size_t unidimensional_size_bytes = unidimensional_size * sizeof(double);
-
-
     cudaMemcpy(d_phi_n, phi_n, unidimensional_size_bytes, cudaMemcpyHostToDevice);
 
     const int N_THREADS = 1024;
@@ -95,17 +111,8 @@ void solveAdvectionEquationExplicit(
 	singleCellEquationExplicit<<<N_BLOCKS, N_THREADS>>>(d_phi, d_phi_n, d_u, d_v, dt, dx, dy, nx, unidimensional_size);
     cudaDeviceSynchronize();
 
-    // copy result from device back to host
-	cudaMemcpy(phi_n, d_phi, unidimensional_size_bytes, cudaMemcpyDeviceToHost);
-
-
-    // copy back to array
-    for (int i = 0; i < unidimensional_size; i++) {
-        phi[i] = phi_n[i];
-    }
-
     // Refresh the boundaries values
-    computeBoundaries(phi, nx, ny);
+    computeBoundaries(d_phi, nx, ny);
 
     // Deallocate memory
     delete[] phi_n;

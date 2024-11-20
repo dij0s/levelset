@@ -5,6 +5,6 @@ using namespace std;
 
 void computeBoundaries(double* phi, const int nx, const int ny);
 void solveAdvectionEquationExplicit(
-    double* phi, double* u, double* v, const int nx, const int ny, const double dx, const double dy, const double dt, double* d_phi, double* d_phi_n, double* d_u, double* d_v);
+    double *d_phi, double *d_phi_n, double *d_u, double *d_v, const int nx, const int ny, const int dx, const int dy, const double dt);
 
 #endif // SOLVE_H

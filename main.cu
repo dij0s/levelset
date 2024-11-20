@@ -20,7 +20,6 @@ using namespace chrono;
 // Advection Solver 
 int main(int argc, char *argv[])
 {
-    cout << "Hello\n";
     auto start_total = high_resolution_clock::now();
 
     // Data Initialization
@@ -41,7 +40,8 @@ int main(int argc, char *argv[])
     // == Numerical == 
     int outputFrequency = nSteps/40;
     
-    size_t unidimensional_size_bytes = nx * ny * sizeof(double);
+    const int unidimensional_size = nx * ny;
+    size_t unidimensional_size_bytes = unidimensional_size* sizeof(double);
     
     double* phi = (double*) malloc(unidimensional_size_bytes); // LevelSet field
     double* curvature = (double*) malloc(unidimensional_size_bytes); // Curvature field
@@ -51,8 +51,7 @@ int main(int argc, char *argv[])
     auto duration_init = duration_cast<nanoseconds>(high_resolution_clock::now() - start_total);
     printf("Execution time of non-p initialization: %ldns\n", duration_init.count());
     
-
-    double  *d_distance, *d_phi, *d_u, *d_v, *d_phi_n, *d_partial_lengths, *d_curvature;
+    double *d_distance, *d_phi, *d_u, *d_v, *d_phi_n, *d_partial_lengths, *d_curvature;
 
     cudaMalloc((void**)&d_distance, unidimensional_size_bytes);
     cudaMalloc((void**)&d_phi, unidimensional_size_bytes);
@@ -61,10 +60,9 @@ int main(int argc, char *argv[])
     cudaMalloc((void **)&d_phi_n, unidimensional_size_bytes);
     cudaMalloc((void **)&d_partial_lengths, unidimensional_size_bytes);
     cudaMalloc((void **)&d_curvature, unidimensional_size_bytes);
-
    
-    Initialization(phi, curvature, u, v, nx, ny, dx, dy, d_phi, d_distance, d_curvature, d_u, d_v); // Initialize the distance function field 
-    computeBoundaries(phi, nx, ny); // Extrapolate phi on the boundaries
+    Initialization(d_phi, d_distance, d_curvature, d_u, d_v, nx, ny, dx, dy); // Initialize the distance function field 
+    computeBoundaries(d_phi, nx, ny); // Extrapolate phi on the boundaries
     // == Output ==
     auto start_write = high_resolution_clock::now();
     
@@ -82,15 +80,15 @@ int main(int argc, char *argv[])
     auto duration_write = duration_cast<nanoseconds>(high_resolution_clock::now() - start_write);
     printf("Execution time of non-p writing: %ldns\n", duration_write.count());
 
-    writeDataVTK(outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
+    // copy data back from device
+    // to write the vtk file
+    cudaMemcpy(phi, d_phi, unidimensional_size_bytes, cudaMemcpyDeviceToHost);
+    cudaMemcpy(curvature, d_curvature, unidimensional_size_bytes, cudaMemcpyDeviceToHost);
+    cudaMemcpy(u, d_u, unidimensional_size_bytes, cudaMemcpyDeviceToHost);
+    cudaMemcpy(v, d_v, unidimensional_size_bytes, cudaMemcpyDeviceToHost);
 
-    // setup array copies
-    const int unidimensional_size = nx * ny;
+    writeDataVTK(outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
     
-    double* phi_copy = new double[unidimensional_size];
-    double* curvature_copy = new double[unidimensional_size];
-    double* u_copy = new double[unidimensional_size];
-    double* v_copy = new double[unidimensional_size];
     // Loop over time
     for (int step = 1; step <= nSteps; step++){
 
@@ -98,42 +96,37 @@ int main(int argc, char *argv[])
         cout << "\nStarting iteration step " << step << "/"<< nSteps << "\tTime " << time << "s\n"; 
 
         // Solve the advection equation
-        solveAdvectionEquationExplicit(phi, u, v, nx, ny, dx, dy, dt, d_phi, d_phi_n, d_u,d_v);
+        solveAdvectionEquationExplicit(d_phi, d_phi_n, d_u, d_v, nx, ny, dx, dy, dt);
 
         // Diagnostics: interface perimeter
-        computeInterfaceLength(phi, nx, ny, dx, dy, d_phi, d_phi_n, d_partial_lengths);
+        computeInterfaceLength(d_phi, d_partial_lengths, nx, ny, dx, dy);
 
         // Diagnostics: interface curvature
-        computeInterfaceCurvature(phi, curvature, nx, ny, dx, dy, d_phi, d_curvature);
+        computeInterfaceCurvature(d_phi, d_curvature, nx, ny, dx, dy);
         
         // Write data to output file
         // Deallocate GPU memory
         if (step%outputFrequency == 0){
             // copy data into array copies
-            for (int i = 0; i < unidimensional_size; i++) {
-                phi_copy[i] = phi[i];
-                curvature_copy[i] = curvature[i];
-                u_copy[i] = u[i];
-                v_copy[i] = v[i];
-            }
+            cudaMemcpy(phi, d_phi, unidimensional_size_bytes, cudaMemcpyDeviceToHost);
+            cudaMemcpy(curvature, d_curvature, unidimensional_size_bytes, cudaMemcpyDeviceToHost);
+            cudaMemcpy(u, d_u, unidimensional_size_bytes, cudaMemcpyDeviceToHost);
+            cudaMemcpy(v, d_v, unidimensional_size_bytes, cudaMemcpyDeviceToHost);
             
-            thread newThread((writeDataVTK), outputName, phi_copy, curvature_copy, u_copy, v_copy, nx, ny, dx, dy, count++);
+            thread newThread((writeDataVTK), outputName, phi, curvature, u, v, nx, ny, dx, dy, count++);
             newThread.detach();
-            
         }
-
     }
 
     auto start_deallocate = high_resolution_clock::now();
 
-            cudaFree(d_distance);
-        cudaFree(d_phi);
-        cudaFree(d_u);
-        cudaFree(d_v);
-        cudaFree(d_phi_n);
-        cudaFree(d_partial_lengths);
-        cudaFree(d_curvature);
-
+    cudaFree(d_distance);
+    cudaFree(d_phi);
+    cudaFree(d_u);
+    cudaFree(d_v);
+    cudaFree(d_phi_n);
+    cudaFree(d_partial_lengths);
+    cudaFree(d_curvature);
 
     // Deallocate memory
     delete[] phi;
@@ -141,11 +134,6 @@ int main(int argc, char *argv[])
     delete[] u;
     delete[] v;
 
-    delete[] phi_copy;
-    delete[] curvature_copy;
-    delete[] u_copy;
-    delete[] v_copy;
-   
     auto duration_deallocate = duration_cast<nanoseconds>(high_resolution_clock::now() - start_deallocate);
     printf("Execution time of memory deallocation: %ldns\n", duration_deallocate.count());
 

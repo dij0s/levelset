@@ -81,27 +81,27 @@ __global__ void computeSingleCellCurvature(double *curvature, double *phi,const 
 // The total interface length (L) is computed by following the following algorithm
 // L ~ sum_{i,j} delta(phi_{i,j}) norm (grad(phi)) dx dy
 // with delta(phi) an approximation of the dirac function := delta(phi) = 1 / sqrt (2 * pi * epsilon) * exp (- phi*phi / 2 / epsilon) 
-void computeInterfaceLength(double* phi, const int nx, const int ny, const double dx, const double dy,double* d_phi, double* d_phi_n, double* d_partial_lengths){
+void computeInterfaceLength(double *d_phi, double *d_partial_lengths, const int nx, const int ny, const int dx, const int dy){
     // Fixed parameter for the dirac function
     double epsilon = 0.001;
     
     // reduce phi to one dimension
     // only includes internal cells
     const int unidimensional_size = nx * ny;
+    size_t unidimensional_size_bytes = unidimensional_size * sizeof(double);
     
     // allocate memory on the device
     // for host-scoped data
     const int N_THREADS = 1024;
     const int N_BLOCKS = ceil((double)(unidimensional_size)/N_THREADS);
 
-    size_t unidimensional_size_bytes = unidimensional_size * sizeof(double);
     // create host-scoped
     // individual blocks result
     double *h_partial_lengths;
     h_partial_lengths = new double[unidimensional_size];
 
     // launch kernel with shared memory size
-    singleCellInterfaceLength<<<N_BLOCKS, N_THREADS>>>(d_phi_n, d_partial_lengths, nx, ny, dx, dy, unidimensional_size, epsilon);
+    singleCellInterfaceLength<<<N_BLOCKS, N_THREADS>>>(d_phi, d_partial_lengths, nx, ny, dx, dy, unidimensional_size, epsilon);
     cudaDeviceSynchronize();
 
     // copy block results from
@@ -114,8 +114,6 @@ void computeInterfaceLength(double* phi, const int nx, const int ny, const doubl
         length += h_partial_lengths[i];
     }
 
-
-
     // deallocate memory
     delete[] h_partial_lengths;
 
@@ -127,12 +125,14 @@ void computeInterfaceLength(double* phi, const int nx, const int ny, const doubl
 // curvature = (phi_xx * phi_y **2 - 2.0 * phi_x * phi_y * phi_xy + phi_yy * phi_x **2) / (phi_x **2 + phi_y **2) ** (3/2)
 // with phi_x:= d phi / dx, phi_y:= d phi / dy
 // and phi_xx:= d phi_x / dx, phi_yy:= d phi_y / dy, phi_xy:= d phi_x / dy
-void computeInterfaceCurvature(double *phi, double *curvature, const int nx, const int ny, const double dx, const double dy, double* d_phi, double* d_curvature)
+void computeInterfaceCurvature(double* d_phi, double* d_curvature, const int nx, const int ny, const double dx, const double dy)
 {
     double maxCurvature = 0.0;
 
     int size2d = nx * ny;
     size_t size2d_bytes = size2d * sizeof(double);
+
+    double *curvature = (double *)malloc(size2d_bytes);
 
     dim3 blockDim(10, 10);
     dim3 gridDim((nx + blockDim.x - 1) / blockDim.x, (ny + blockDim.y - 1) / blockDim.y);

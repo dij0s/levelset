@@ -24,7 +24,7 @@ __global__ void vecAddKernel(double *distance, double *phi, double *u, double *v
 }
 
 // Initialization of the distance function inside the domain
-void Initialization(double* phi, double* curvature, double* u, double* v, const int nx, const int ny, const double dx, const double dy, double * d_phi, double * d_distance, double * d_curvature, double * d_u, double * d_v) {
+void Initialization(double *d_phi, double *d_distance, double *d_curvature, double *d_u, double *d_v, const int nx, const int ny, const double dx, const double dy) {
     double xcenter = 0.5;
     double ycenter = 0.75;
     double radius = 0.15;
@@ -33,11 +33,7 @@ void Initialization(double* phi, double* curvature, double* u, double* v, const 
     size_t size1d = nx * sizeof(double);
     size_t size2d = nx * ny * sizeof(double);
 
-
     h_distance = (double*)malloc(size1d);
-
-
-   
     cudaMemcpy(d_distance, h_distance, size2d, cudaMemcpyHostToDevice);
 
     dim3 blockDim(10, 10);
@@ -45,14 +41,9 @@ void Initialization(double* phi, double* curvature, double* u, double* v, const 
     vecAddKernel<<<gridDim, blockDim>>>(d_distance, d_phi, d_u, d_v, nx, ny, dx, dy, ycenter, xcenter, radius);
     cudaDeviceSynchronize();
     
-    // Copy results back to host
-    cudaMemcpy(phi, d_phi, size2d, cudaMemcpyDeviceToHost);
-    cudaMemcpy(u, d_u, size2d, cudaMemcpyDeviceToHost);
-    cudaMemcpy(v, d_v, size2d, cudaMemcpyDeviceToHost);
-
     // Free host temporary memory
     free(h_distance);
 
     // Call the function to compute the interface curvature with updated phi
-    computeInterfaceCurvature(phi, curvature, nx, ny, dx, dy, d_phi, d_curvature);
+    computeInterfaceCurvature(d_phi, d_curvature, nx, ny, dx, dy);
 }

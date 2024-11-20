@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void computeInterfaceLength(double* phi, const int nx, const int ny, const double dx, const double dy, double* d_phi, double* d_phi_n, double* d_partial_lengths);
-void computeInterfaceCurvature(double* phi,double* curvature, const int nx, const int ny, const double dx, const double dy, double* d_phi, double* d_curvature);
+void computeInterfaceLength(double *d_phi, double *d_partial_lengths, const int nx, const int ny, const int dx, const int dy);
+void computeInterfaceCurvature(double* d_phi, double* d_curvature, const int nx, const int ny, const double dx, const double dy);
 
 #endif // DIAGNOSTICS_H
