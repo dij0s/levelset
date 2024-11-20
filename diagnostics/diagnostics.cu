@@ -81,7 +81,7 @@ __global__ void computeSingleCellCurvature(double *curvature, double *phi,const 
 // The total interface length (L) is computed by following the following algorithm
 // L ~ sum_{i,j} delta(phi_{i,j}) norm (grad(phi)) dx dy
 // with delta(phi) an approximation of the dirac function := delta(phi) = 1 / sqrt (2 * pi * epsilon) * exp (- phi*phi / 2 / epsilon) 
-void computeInterfaceLength(double* phi, const int nx, const int ny, const double dx, const double dy){
+void computeInterfaceLength(double* phi, const int nx, const int ny, const double dx, const double dy,double* d_phi, double* d_phi_n, double* d_partial_lengths){
     // Fixed parameter for the dirac function
     double epsilon = 0.001;
     
@@ -127,7 +127,7 @@ void computeInterfaceLength(double* phi, const int nx, const int ny, const doubl
 // curvature = (phi_xx * phi_y **2 - 2.0 * phi_x * phi_y * phi_xy + phi_yy * phi_x **2) / (phi_x **2 + phi_y **2) ** (3/2)
 // with phi_x:= d phi / dx, phi_y:= d phi / dy
 // and phi_xx:= d phi_x / dx, phi_yy:= d phi_y / dy, phi_xy:= d phi_x / dy
-void computeInterfaceCurvature(double *phi, double *curvature, const int nx, const int ny, const double dx, const double dy)
+void computeInterfaceCurvature(double *phi, double *curvature, const int nx, const int ny, const double dx, const double dy, double* d_phi, double* d_curvature)
 {
     double maxCurvature = 0.0;
 

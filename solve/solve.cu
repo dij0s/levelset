@@ -70,7 +70,7 @@ void computeBoundaries(double* phi, const int nx, const int ny){
 // Using the euler explicit numerical scheme => phi = phi_n - (u d phi / dx + v d phi / dy)
 // A first order upwind scheme is used to stabilize the solver (https://en.wikipedia.org/wiki/Upwind_scheme)
 void solveAdvectionEquationExplicit(
-    double* phi, double* u, double* v, const int nx, const int ny, const double dx, const double dy, const double dt){
+    double* phi, double* u, double* v, const int nx, const int ny, const double dx, const double dy, const double dt, double* d_phi, double * d_phi_n, double* d_u, double* d_v){
 
     const int unidimensional_size = nx * ny;
     double* phi_n = new double[unidimensional_size];

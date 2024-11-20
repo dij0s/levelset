@@ -5,7 +5,6 @@
 #include "../diagnostics/diagnostics.h"
 #include "init.h"
 #include "../common_includes.c"
-using namespace std;
 
 __global__ void vecAddKernel(double *distance, double *phi, double *u, double *v, int nx, int ny, double dx, double dy, double ycenter, double xcenter, double radius) {
     int i = blockIdx.x * blockDim.x + threadIdx.x;
@@ -25,24 +24,18 @@ __global__ void vecAddKernel(double *distance, double *phi, double *u, double *v
 }
 
 // Initialization of the distance function inside the domain
-void Initialization(double* phi, double* curvature, double* u, double* v, const int nx, const int ny, const double dx, const double dy) {
+void Initialization(double* phi, double* curvature, double* u, double* v, const int nx, const int ny, const double dx, const double dy, double * d_phi, double * d_distance, double * d_curvature, double * d_u, double * d_v) {
     double xcenter = 0.5;
     double ycenter = 0.75;
     double radius = 0.15;
 
     double *h_distance;
-    double  *d_distance, *d_phi, *d_u, *d_v;
     size_t size1d = nx * sizeof(double);
     size_t size2d = nx * ny * sizeof(double);
 
 
     h_distance = (double*)malloc(size1d);
 
-
-    cudaMalloc((void**)&d_distance, size2d);
-    cudaMalloc((void**)&d_phi, size2d);
-    cudaMalloc((void**)&d_u, size2d);
-    cudaMalloc((void**)&d_v, size2d);
 
    
     cudaMemcpy(d_distance, h_distance, size2d, cudaMemcpyHostToDevice);
@@ -57,15 +50,9 @@ void Initialization(double* phi, double* curvature, double* u, double* v, const 
     cudaMemcpy(u, d_u, size2d, cudaMemcpyDeviceToHost);
     cudaMemcpy(v, d_v, size2d, cudaMemcpyDeviceToHost);
 
-    // Free device memory
-    cudaFree(d_distance);
-    cudaFree(d_phi);
-    cudaFree(d_u);
-    cudaFree(d_v);
-
     // Free host temporary memory
     free(h_distance);
 
     // Call the function to compute the interface curvature with updated phi
-    computeInterfaceCurvature(phi, curvature, nx, ny, dx, dy);
+    computeInterfaceCurvature(phi, curvature, nx, ny, dx, dy, d_phi, d_curvature);
 }
