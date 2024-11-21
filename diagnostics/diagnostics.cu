@@ -19,21 +19,17 @@ __global__ void singleCellInterfaceLength(double *phi, double *partial_lengths, 
     }
 
     // avoid computing for borders
-    int ii = i % nx;
-    int jj = floor((double)i / nx);
-
     if (i == 0 || i == nx - 1 || j == 0 || j == ny - 1) {
         partial_lengths[j * nx + i] = 0.0;
         return;
     }
 
     // compute interface length
-    int center = i + j * nx;
     int left = (i - 1) + j * nx;             // phi[i-1][j]
     int right = (i + 1) + j * nx;            // phi[i+1][j]
     int up = (j - 1) * nx + i;               // phi[i][j-1]
     int down = (j + 1) * nx + i;             // phi[i][j+1]
-     double phi_x = (phi[right] - phi[left]) / 2.0 / dx;
+    double phi_x = (phi[right] - phi[left]) / 2.0 / dx;
     double phi_y = (phi[down] - phi[up]) / 2.0 / dy;
     // compute the norm of gradient: norm(grad(phi)) 
     double normGrad = sqrt(phi_x * phi_x + phi_y * phi_y);
@@ -97,7 +93,7 @@ void computeInterfaceLength(double* phi, const int nx, const int ny, const doubl
     
     // allocate memory on the device
     // for host-scoped data
-   dim3 blockDim(10, 10);
+    dim3 blockDim(10, 10);
     dim3 gridDim((nx + blockDim.x - 1) / blockDim.x, (ny + blockDim.y - 1) / blockDim.y);
 
     size_t unidimensional_size_bytes = unidimensional_size * sizeof(double);
