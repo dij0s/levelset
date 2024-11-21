@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     // == Spatial ==
     int scale = 1; 
     if (argc > 1){scale = stoi(argv[1]);}
-    
+    printf("scale: %d",scale);
     int nx = 100*scale; int ny = 100*scale; // Number of cells in each direction 
     double Lx = 1.0; double Ly = 1.0; // Square domain [m]
     double dx = Lx / (nx-1); double dy = Ly / (ny-1); // Spatial step [m]

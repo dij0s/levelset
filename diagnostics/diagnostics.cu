@@ -11,6 +11,7 @@ using namespace std;
 __global__ void singleCellInterfaceLength(double *phi, double *partial_lengths, const int nx, const int ny, const double dx, const double dy, const int unidimensional_size, const double epsilon) {
     // compute unique thread index
     int i = blockIdx.x * blockDim.x + threadIdx.x;
+    int j = blockIdx.y * blockDim.y + threadIdx.y;
 
     // don't handle non-existent indexes
     if (i >= unidimensional_size) {
@@ -21,21 +22,26 @@ __global__ void singleCellInterfaceLength(double *phi, double *partial_lengths, 
     int ii = i % nx;
     int jj = floor((double)i / nx);
 
-    if (ii == 0 || ii == nx - 1 || jj == 0 || jj == ny - 1) {
-        partial_lengths[i] = 0.0;
+    if (i == 0 || i == nx - 1 || j == 0 || j == ny - 1) {
+        partial_lengths[j * nx + i] = 0.0;
         return;
     }
 
     // compute interface length
-    double phi_x = (phi[i + 1] - phi[i - 1]) / 2.0 / dx; 
-    double phi_y = (phi[i + nx] - phi[i - nx]) / 2.0 / dy; 
+    int center = i + j * nx;
+    int left = (i - 1) + j * nx;             // phi[i-1][j]
+    int right = (i + 1) + j * nx;            // phi[i+1][j]
+    int up = (j - 1) * nx + i;               // phi[i][j-1]
+    int down = (j + 1) * nx + i;             // phi[i][j+1]
+     double phi_x = (phi[right] - phi[left]) / 2.0 / dx;
+    double phi_y = (phi[down] - phi[up]) / 2.0 / dy;
     // compute the norm of gradient: norm(grad(phi)) 
     double normGrad = sqrt(phi_x * phi_x + phi_y * phi_y);
     // compute the dirac function approximation
-    double delta = (1.0 / sqrt(2.0 * M_PI * epsilon)) * exp( - (phi[i] * phi[i]) / (2.0 * epsilon));
+    double delta = (1.0 / sqrt(2.0 * M_PI * epsilon)) * exp( - (phi[j * nx + i] * phi[j * nx + i]) / (2.0 * epsilon));
     // L = delta * norm(grad(phi)) * dx * dy
     // put data in shared memory
-    partial_lengths[i] = delta * normGrad * dx * dy;
+    partial_lengths[j * nx + i] = delta * normGrad * dx * dy;
 }
 
 __global__ void computeSingleCellCurvature(double *curvature, double *phi,const double dx, const double dy, const int nx, const int ny)
@@ -91,8 +97,8 @@ void computeInterfaceLength(double* phi, const int nx, const int ny, const doubl
     
     // allocate memory on the device
     // for host-scoped data
-    const int N_THREADS = 1024;
-    const int N_BLOCKS = ceil((double)(unidimensional_size)/N_THREADS);
+   dim3 blockDim(10, 10);
+    dim3 gridDim((nx + blockDim.x - 1) / blockDim.x, (ny + blockDim.y - 1) / blockDim.y);
 
     size_t unidimensional_size_bytes = unidimensional_size * sizeof(double);
     // create host-scoped
@@ -101,7 +107,7 @@ void computeInterfaceLength(double* phi, const int nx, const int ny, const doubl
     h_partial_lengths = new double[unidimensional_size];
 
     // launch kernel with shared memory size
-    singleCellInterfaceLength<<<N_BLOCKS, N_THREADS>>>(d_phi_n, d_partial_lengths, nx, ny, dx, dy, unidimensional_size, epsilon);
+    singleCellInterfaceLength<<<gridDim, blockDim>>>(d_phi_n, d_partial_lengths, nx, ny, dx, dy, unidimensional_size, epsilon);
     cudaDeviceSynchronize();
 
     // copy block results from
