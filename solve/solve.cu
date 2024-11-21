@@ -9,9 +9,12 @@ using namespace std;
 // based on its horizontal speed u, vertical speed
 // v and its cardinal neighbors
 __global__ void singleCellEquationExplicit(double *phi, double *phi_n, double *u, double *v, const double dt, const double dx, const double dy, const int nxy, const int size) {
-    // compute unique thread index
-	int i = blockIdx.x * blockDim.x + threadIdx.x;
+    // compute block and unique thread index
+	int ii = blockIdx.x * blockDim.x + threadIdx.x;
+    int jj = blockIdx.y * blockDim.y + threadIdx.y;
     
+    int i = ii + jj * nxy;
+
     // don't handle non-existent indexes
     // due to 2d ceiling necessity
     if (i > size) {
@@ -22,11 +25,9 @@ __global__ void singleCellEquationExplicit(double *phi, double *phi_n, double *u
     // for horizontal and vertical
     // boundary checking -> don't handle
     // if it is on boundary
-    int ii = i % nxy;
     if (ii == 0 || ii == (nxy - 1)) {
         return;
     }
-    int jj = floor((double)i / nxy);
     if (jj == 0 || jj == (nxy - 1)) {
         return;
     }
@@ -89,10 +90,9 @@ void solveAdvectionEquationExplicit(
 
     cudaMemcpy(d_phi_n, phi_n, unidimensional_size_bytes, cudaMemcpyHostToDevice);
 
-    const int N_THREADS = 1024;
-    const int N_BLOCKS = ceil((double)(unidimensional_size)/N_THREADS);
-
-	singleCellEquationExplicit<<<N_BLOCKS, N_THREADS>>>(d_phi, d_phi_n, d_u, d_v, dt, dx, dy, nx, unidimensional_size);
+    dim3 blockDim(10, 10);
+    dim3 gridDim((nx + blockDim.x - 1) / blockDim.x, (ny + blockDim.y - 1) / blockDim.y);
+	singleCellEquationExplicit<<<gridDim, blockDim>>>(d_phi, d_phi_n, d_u, d_v, dt, dx, dy, nx, unidimensional_size);
     cudaDeviceSynchronize();
 
     // copy result from device back to host
